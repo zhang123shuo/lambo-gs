@@ -1,0 +1,101 @@
+ul.category{  
+	float: left;
+	font-size: 16px;
+}
+ul.category > li{
+	float: left;
+	margin-right: 8px;
+	margin-bottom: 12px; 
+	border: 2px solid #CCC; 
+	padding: 6px 8px;
+	cursor: pointer;
+}
+ul.category > li.active{  
+	border: 2px solid #57A957;
+	background: #F9F9F9 url(../img/sel.gif) right bottom no-repeat;
+}
+ul.category > li a{
+	color: #777;
+	text-decoration: none;
+}
+ul.category > li.active a{
+	color: #57A957;
+}
+
+ 
+ul.threads > li{   
+	border-bottom: 1px #CCC dashed; 
+	padding: 10px 0;
+}
+ul.threads > li a{ 
+	font-weight: bold;
+}
+.thread img{
+	width: 32px;
+	height: 32px;
+}
+.thread > div{ 
+	float: left;
+}
+.thread div.summary{ 
+	margin-left: 6px;
+}
+.thread div.summary a.title{
+	font-size: 16px;
+}
+div.summary > span{
+	display: block; 
+}
+div.summary > span.comment{
+	margin-top: 4px;
+	font-size: 12px; 
+}
+.thread div.stat{
+	font-size: 14px;
+	float: right;
+	margin-right: 6px;
+}
+div.stat span.num{
+	font-weight: bold;
+}
+div.stat > span {
+	display: block;
+	text-align: right;
+}
+div.stat > span.created{
+	margin-top: 4px;
+}
+
+ul.image-list > li{
+	float: left;
+	margin: 2px;
+}
+ul.image-list > li img{
+	width: 40px;
+	height: 40px;
+}
+ul.image-list > li > span{
+	display: block;
+	font-size: 12px;
+	text-align: center;
+}
+
+div.web-im{
+	margin-top: 10px;
+}
+div.web-im span.label{
+	font-size: 12px;
+	font-weight: normal;
+	margin-left: 18px;
+}
+
+
+ul.tags li{
+
+	margin-left: 10px;
+	font-weight: bold;
+	
+}
+div.hot-tags{
+	margin-top: 10px;
+}

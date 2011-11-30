@@ -1,0 +1,85 @@
+{% extends ../base.html %} 
+{% block title %}
+<title>资讯交流 | 投资智慧</title>
+{% end %} 
+{% block js_css %}
+<link href="{{static_url('css/forum.css')}}" rel="stylesheet"
+	type="text/css" />
+{% end %} 
+
+
+{% block content %}
+
+<div class="page-header">
+	<h1>
+		资讯交流 <small>简洁、实用、快速的资讯交流社区</small>
+	</h1>
+</div>
+<div class="row">
+	<div class="span12">
+
+		<div class="forum-filter clearfix">
+			<div class="clearfix">
+				<ul id="category" class="category">
+					<li onclick="categoryClicked(this);" class="active" value="0"><a href="/">全部</a></li>
+					{% for c in cats %}
+					<li onclick="categoryClicked(this);" value="{{c['id']}}"><a href="/">{{c['name']}}</a></li>
+					{% end %}
+				</ul>
+			</div>
+			<div class="clearfix">
+				<ul class="tabs forum">
+					<li class="active"><a href="#">最新</a></li>
+					<li><a href="#">热门</a></li> 					
+					<li><a href="#">尚未回复</a></li>
+					<li><a href="#">最新回复</a></li>
+				</ul>
+			</div>
+		</div> 
+		<ul class="threads">
+		{% for thread in threads %}
+			{% set num = randrange(10) %}
+			<li class="thread clearfix">
+				<div>
+				<a href="#"><img src="{{static_url('img/avatar/%s.jpg'%num)}}"></a> 
+				</div>
+				<div class="summary">
+					<span><a href="#" class="title">{{thread['title']}}</a></span> 
+					<span class="comment">最近回复 {{time_fmt(thread['created_at'])}} by 洪磊明</span> 
+				</div> 
+				<div class="stat"> 
+					<span><span class="num">8</span>回/<span class="num">120</span>阅</span> 
+					<span class="created">{{time_fmt(thread['created_at'])}}</span> 
+				</div>	
+			</li>
+		{% end %}
+		</ul>
+	</div>
+	
+	<div class="span4">
+		<div><h3>在线会员</h3></div>
+		<ul class="image-list clearfix">  
+			{% for i in range(20) %}
+			{% set num = randrange(10) %}
+			<li>
+				<span><a href="#"><img src="{{static_url('img/avatar/%s.jpg'%num)}}"></a> </span>
+				<span><a href="#">洪雷鸣</a></span>
+			</li>
+			{% end %} 
+		</ul>
+		<div class="web-im">
+			<a href="#" class="btn primary">进入聊天室 （43）  <span class="label success">聊天中</span></a>
+			
+		</div>
+		
+		<div class="hot-tags">
+			<h3>热议标签</h3>
+			<ul class="tags">
+				{% for tag in hot_tags %}
+				<li><a href="#" style="font-size: {{tag['size']}}px">{{tag['name']}}</a></li>
+				{% end %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% end %}
