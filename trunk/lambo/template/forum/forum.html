@@ -3,8 +3,12 @@
 <title>资讯交流 | 投资智慧</title>
 {% end %} 
 {% block js_css %}
-<link href="{{static_url('css/forum.css')}}" rel="stylesheet"
-	type="text/css" />
+<link href="{{static_url('css/forum.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{static_url('js/jquery-ui-1.8.16.core-min.js')}}"></script>
+<script src="{{static_url('js/jquery.ui.draggable.min.js')}}"></script>
+<script src="{{static_url('js/forum.js')}}"></script>
+<script src="{{static_url('js/websock.js')}}"></script>
+<script src="{{static_url('js/im.js')}}"></script>
 {% end %} 
 
 
@@ -48,12 +52,60 @@
 					<span class="comment">最近回复 {{time_fmt(thread['created_at'])}} by 洪磊明</span> 
 				</div> 
 				<div class="stat"> 
-					<span><span class="num">8</span>回/<span class="num">120</span>阅</span> 
+					{% set reply = randrange(100) %}
+					{% set view = randrange(1000)+1000 %}
+					<span><span class="num">{{reply}}</span>回/<span class="num">{{view}}</span>阅</span> 
 					<span class="created">{{time_fmt(thread['created_at'])}}</span> 
 				</div>	
 			</li>
 		{% end %}
 		</ul>
+		
+		<div id="chatroom" class="modal hide  in"> 
+            <div class="modal-header">
+              <a href="#" class="close">×</a>
+  			  <span>资讯交流聊天室</span>
+            </div>
+            <div class="modal-body"> 
+	            <div class="left-board"> 
+	            	<div id="msg-board" class="msg-board scrollbar"> 
+	            		<ul id="msgs">
+	            		</ul>
+	            	</div>
+	            	<div class="msg-smiles clearfix">
+	            		<a href="#"><img src="{{static_url('img/smiles/smile.png')}}"> <span>表情</span>
+	            	</a>
+	            	</div>
+	            	<div class="msg-box"> 
+	            		<textarea id="msg-box" placeholder="Ctrl+Enter发送,Enter换行"></textarea>
+	            	</div>	   
+	            	<div class="msg-cmd"> 
+	            		<a href="#" onclick="publish();" class="btn primary pull-right">发 送</a>
+	            		<span class="hint pull-right">还可以输入1000个汉字</span>
+	            	</div>	         
+	            </div> 
+	            
+	            <div class="right-board"> 
+	            	<input class="search" type="text" placeholder="输入成员名字">
+		            <div class="mem-board scrollbar">
+		            <span>在线成员（20/160）</span>
+		            <ul class="mem-list">
+		            <li class="active clearfix">
+		            	<a href="#" class="pull-left"><img src="{{static_url('img/avatar/0.jpg')}}"></a> 
+		            	<a href="#" class="pull-left">洪磊明</a>
+		            </li>
+		            {% for i in range(20) %} 
+		            {% set num = randrange(10) %}
+		            	<li class="clearfix">
+		            	<a href="#"><img src="{{static_url('img/avatar/%s.jpg'%num)}}"></a> 
+		            	<a href="#" class="name">洪磊明</a>
+		            	</li>
+		            {% end %}
+		            </ul>
+		            </div>
+	            </div> 
+            </div>
+        </div>
 	</div>
 	
 	<div class="span4">
@@ -68,7 +120,7 @@
 			{% end %} 
 		</ul>
 		<div class="web-im">
-			<a href="#" class="btn primary">进入聊天室 （43）  <span class="label success">聊天中</span></a>
+			<a href="#" class="btn primary" onclick="showChatRoom();return false;">进入聊天室 （43）  <span class="label success">聊天中</span></a>
 			
 		</div>
 		
@@ -81,5 +133,7 @@
 			</ul>
 		</div>
 	</div>
+	
+	
 </div>
 {% end %}
