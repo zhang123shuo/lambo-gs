@@ -211,3 +211,11 @@ ul.mem-list li > a{
 	margin-left: 6px;
 	color: #666;
 }
+#chatroom ul.msgs{
+	padding: 6px;
+}
+ul.msgs li > p{
+	margin-top: 4px;
+	font-size: 14px;
+	color: black;
+}
