@@ -3,3 +3,19 @@
 .clearfix:after { clear: both; }
 
 ul{ list-style: none; margin: 0;}
+.scrollbar::-webkit-scrollbar { background: transparent; overflow: visible; width: 15px; }
+.scrollbar::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, 0.2); border: solid white; }
+.scrollbar::-webkit-scrollbar-corner { background: transparent; }
+
+input.search{  
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	border-bottom: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box; 
+	padding-left: 24px;
+	background: white no-repeat url(../img/search_icon.png) 5px 5px;
+}

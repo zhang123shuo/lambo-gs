@@ -12,14 +12,14 @@ categories = [
     {'id':'4','name':u'站务/建议'}
 ]
 hot_tags = [
-    {'size':'11','name':u'Android'},
+    {'size':'11','name':u'万 科Ａ'},
     {'size':'18','name':u'广汇股份'},
-    {'size':'13','name':u'中石油'},
+    {'size':'23','name':u'中石油'},
     {'size':'16','name':u'中国建筑'},   
-    {'size':'11','name':u'Iphone'},
-    {'size':'18','name':u'农业'},
-    {'size':'13','name':u'工业'},
-    {'size':'16','name':u'海外'},   
+    {'size':'11','name':u'紫金矿业'},
+    {'size':'18','name':u'中信证券'},
+    {'size':'23','name':u'包钢股份'},
+    {'size':'16','name':u'三一重工'},   
 ]
  
 class ForumBaseHandler(BaseHandler):

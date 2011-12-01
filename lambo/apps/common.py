@@ -3,6 +3,8 @@ try:
     import cPickle as pickle
 except:
     import pickle
+
+import logging
 import uuid    
 import tornado.web   
 from pymongo.objectid import ObjectId as _id
@@ -10,6 +12,7 @@ import time
 import datetime
 one_day = datetime.timedelta(days=1)
 one_hour = datetime.timedelta(hours=1)
+
 
 def time_fmt(value):     
     tm_now = time.localtime()    
@@ -38,7 +41,7 @@ def time_fmt(value):
     return u'%d月%d日 %02d:%02d'%(t.tm_mon,t.tm_mday,t.tm_hour,t.tm_min)
  
 
-cache_users = { }
+ 
 class BaseHandler(tornado.web.RequestHandler):     
     @property  
     def db(self):  #get application mongodb instance
@@ -89,15 +92,43 @@ class BaseHandler(tornado.web.RequestHandler):
 class LoginHandler(BaseHandler): 
     def get(self):  
         self.render('login.html') 
+    
+    def post(self):
+        email = self.get_argument('email')  
+        password = self.get_argument('password')
+        res = {'status': '0'}
+        user = self.load_user(email)
+        if user is None:
+            res['status'] = '-1'
+        elif user['password'] == password:  
+            self.set_cookie('email',email) 
+            self.set_cookie('name',user['name']) 
+            self.set_cookie('uid',str(user['_id']))    
+            res['data'] = '''
+                <ul class="nav secondary-nav">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle">%s</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">设 置</a></li> 
+                        <li><a href="/auth/logout">退 出</a></li>
+                      </ul>
+                    </li>
+                </ul>'''%user['name']
+        else:
+            res['status'] = '-2' 
+        
+        self.write(res)
 
 class LogoutHandler(BaseHandler):  
     def get(self):
         self.clear_cookie('uid')   
+        self.clear_cookie('email')  
+        self.clear_cookie('name')  
         self.redirect('/')
  
-  
+
     
 handlers = [ 
-    ('/auth/login', LoginHandler), 
-    ('/auth/logout', LogoutHandler)
+    ('/login', LoginHandler), 
+    ('/logout', LogoutHandler)
 ] 

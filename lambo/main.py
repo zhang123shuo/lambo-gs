@@ -26,6 +26,12 @@ def build_handlers():
     from apps.forum import handlers
     prefixing_handlers(all_handlers, '/', handlers) 
     
+    from apps.common import handlers
+    prefixing_handlers(all_handlers, '/auth', handlers) 
+    
+    from apps.im import handlers
+    prefixing_handlers(all_handlers, '/im', handlers) 
+    
     return all_handlers
      
 def main():
@@ -44,6 +50,7 @@ def main():
     from pymongo import Connection
     conn = Connection(options.mongodb_host) 
     app.db = conn['promise']
+    app.cached_users = {} 
     
     server = tornado.httpserver.HTTPServer(app) 
     server.listen(options.port) 

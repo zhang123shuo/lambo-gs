@@ -71,9 +71,15 @@
       .topbar .btn {
         border: 0;
       }
+      .dropdown-menu {
+      	 min-width: 120px;
+      	 text-align: center;
+      }
 
     </style> 
+    <script src="{{static_url('js/jquery-1.7.1.min.js')}}"></script>
     
+    <script src="{{static_url('js/common.js')}}"></script>
     {% block js_css %}
     
     {% end %}
@@ -84,17 +90,31 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#">国信投资研究</a>
+          <a class="brand" href="/">国信投资研究</a>
           <ul class="nav">
-            <li class="active"><a href="#">资讯交流</a></li>
+            <li class="active"><a href="/">资讯交流</a></li>
             <li><a href="#about">投资模型</a></li>
             <li><a href="#contact">研究报告</a></li>
           </ul>
-          <form action="" class="pull-right">
-            <input class="input-small" type="text" placeholder="用户名">
-            <input class="input-small" type="password" placeholder="密码">
-            <button class="btn success" type="submit">登录</button>
-          </form>
+          {% if not current_user %}
+          <form id="login" class="pull-right">
+	          <input class="input-small" type="text" name="email" placeholder="Email">
+	          <input class="input-small" type="password" name="password" placeholder="密码">
+	          <a href="#" class="btn success" onclick="login();return false;">登录</a>
+	      </form> 
+	      {% else %}
+	      <ul class="nav secondary-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle">{{handler.cookies['name'].value}}</a>
+              <ul class="dropdown-menu">
+                <li><a href="#">设 置</a></li> 
+                
+                <li><a href="/auth/logout">退 出</a></li>
+              </ul>
+            </li>
+          </ul>
+	      {% end %}
+        
         </div>
       </div>
     </div>
