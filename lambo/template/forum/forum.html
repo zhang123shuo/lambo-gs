@@ -16,7 +16,7 @@
 
 <div class="page-header">
 	<h1>
-		资讯交流 <small>简洁、实用、快速的资讯交流社区</small>
+		资讯交流 <small>简洁、实用、快速的资讯交流社区</small> <small>【Ctrl + Enter打开聊天室】</small>
 	</h1>
 </div>
 <div class="row">
@@ -69,7 +69,14 @@
             <div class="modal-body"> 
 	            <div class="left-board"> 
 	            	<div id="msg-board" class="msg-board scrollbar"> 
-	            		<ul id="msgs">
+	            		<ul id="msgs" class="msgs">
+	            		{% for i in range(20) %}
+	            		<li>
+	            			<a href="#" class="author">洪磊明</a> <span>[19:14:23]</span>
+	            			<p>为配合京沪高铁380BL动车组恢复上线运行，铁道部日前组织京沪高铁公司和北京、济南、上海等铁路局对京沪高铁列车运行图进行了优化调整，定于2011年12月12日零时起实行。”铁道部有关负责人透露。
+	            			</p>
+	            		</li>
+	            		{% end %}
 	            		</ul>
 	            	</div>
 	            	<div class="msg-smiles clearfix">
@@ -81,7 +88,7 @@
 	            	</div>	   
 	            	<div class="msg-cmd"> 
 	            		<a href="#" onclick="publish();" class="btn primary pull-right">发 送</a>
-	            		<span class="hint pull-right">还可以输入1000个汉字</span>
+	            		<span class="hint pull-right">Ctrl + Enter 发送</span>
 	            	</div>	         
 	            </div> 
 	            
