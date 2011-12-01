@@ -341,7 +341,12 @@ function EventSocket(host){
 }
 
 EventSocket.prototype.connect = function(host){
-	var sock = new WebSocket(host); 
+	var sock;
+	if ("WebSocket" in window){
+		sock = new WebSocket(host);
+	} else if ("MozWebSocket" in window){
+		sock = new MozWebSocket(host);
+	}
 	var $this = this;
 	sock.onmessage = function(event){
 		var msg = unpack_event(event.data); 

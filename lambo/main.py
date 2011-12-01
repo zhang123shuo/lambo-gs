@@ -6,7 +6,7 @@ import tornado.autoreload
 from tornado.options import define, options
 
 import os.path  
-define('port', default=8000,type=int)   
+define('port', default=8080,type=int)   
 define('mongodb_host', default='localhost:27017,localhost:27018,localhost:27019')
   
 class TestHandler(tornado.web.RequestHandler):

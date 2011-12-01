@@ -19,23 +19,21 @@ function enableQuickSend() {
 		}
 	});
 }
-function init_ws(host) {
-	if ("WebSocket" in window) {
+function init_ws(host,username) {
+	if ("WebSocket" in window || 'MozWebSocket' in window ) {
 		eventSocket = new EventSocket(host); 
-		eventSocket.on("publish", function(data) {
-			var title = '<a href="#">洪磊明</a><span>[19:14:23]</span>';
+		eventSocket.on("publish", function(data) { 
+			var time = new Date().format("H:i:s");
+			var title = '<a href="#">'+username+'</a> <span>['+time+']</span>';
 			var msg = "<li>" + title + "<p>" + data.body + "</p></li>";
 			$("#msgs").append(msg);
-			$("#msg-board").prop({
-				scrollTop : $("#msg-board").prop("scrollHeight")
-			});
+			$("#msg-board").prop({ scrollTop : $("#msg-board").prop("scrollHeight")});
 		});
  
 	} else {
 		alert("WebSocket not supported");
 	}
-	$("#msg-board").prop({
-		scrollTop : $("#msg-board").prop("scrollHeight")
-	}); 
+	$("#msg-board").prop({ scrollTop : $("#msg-board").prop("scrollHeight")}); 
+	
 	enableQuickSend();
 }

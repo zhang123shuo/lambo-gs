@@ -3,6 +3,9 @@
 <title>资讯交流 | 投资智慧</title>
 {% end %} 
 {% block js_css %}
+<script type="text/javascript">
+var username = "{{handler.get_cookie('name')}}";
+</script>
 <link href="{{static_url('css/forum.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{static_url('js/jquery-ui-1.8.16.core-min.js')}}"></script>
 <script src="{{static_url('js/jquery.ui.draggable.min.js')}}"></script>
@@ -70,13 +73,7 @@
 	            <div class="left-board"> 
 	            	<div id="msg-board" class="msg-board scrollbar"> 
 	            		<ul id="msgs" class="msgs">
-	            		{% for i in range(20) %}
-	            		<li>
-	            			<a href="#" class="author">洪磊明</a> <span>[19:14:23]</span>
-	            			<p>为配合京沪高铁380BL动车组恢复上线运行，铁道部日前组织京沪高铁公司和北京、济南、上海等铁路局对京沪高铁列车运行图进行了优化调整，定于2011年12月12日零时起实行。”铁道部有关负责人透露。
-	            			</p>
-	            		</li>
-	            		{% end %}
+	            		
 	            		</ul>
 	            	</div>
 	            	<div class="msg-smiles clearfix">
