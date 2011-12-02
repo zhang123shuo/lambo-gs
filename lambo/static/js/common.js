@@ -435,6 +435,7 @@ function login(){
 		if(data.status=="0"){
 			$("#login").addClass("hide");
 			$(".topbar .fill .container").append(data.data);
+			g_logged_user = data.user; //mark the global user, fix it with cookie
 		}else if(data.status=="-2"){
 			alert("亲，密码错误哦!");
 		}else if(data.status=="-1"){

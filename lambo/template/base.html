@@ -78,8 +78,18 @@
 
     </style> 
     <script src="{{static_url('js/jquery-1.7.1.min.js')}}"></script>
-    
     <script src="{{static_url('js/common.js')}}"></script>
+    <script type="text/javascript">
+    {% if current_user %}
+    var g_logged_user = {
+		'name': "{{handler.get_secure_cookie('name')}}",
+		'uid': "{{handler.get_secure_cookie('uid')}}",
+		'email': "{{handler.get_secure_cookie('email')}}"
+	}; 
+    {% else %}
+    var g_logged_user = null;
+    {% end %}
+	</script>
     {% block js_css %}
     
     {% end %}
@@ -105,7 +115,7 @@
 	      {% else %}
 	      <ul class="nav secondary-nav">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle">{{handler.cookies['name'].value}}</a>
+              <a href="#" class="dropdown-toggle">{{handler.get_secure_cookie('name')}}</a>
               <ul class="dropdown-menu">
                 <li><a href="#">设 置</a></li> 
                 

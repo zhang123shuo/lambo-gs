@@ -57,12 +57,12 @@ class BaseHandler(tornado.web.RequestHandler):
     
     
     def get_current_user(self): #get current logged in user
-        if self.get_cookie('email', None) is None: 
+        if self.get_secure_cookie('uid', None) is None: 
             return None
         user = {
-            'uid': self.get_cookie('uid', None),
-            'email': self.get_cookie('email', None) ,
-            'name': self.get_cookie('name', None) 
+            'uid': self.get_secure_cookie('uid', None),
+            'email': self.get_secure_cookie('email', None) ,
+            'name': self.get_secure_cookie('name', None) 
         }
         return user
     
@@ -101,9 +101,9 @@ class LoginHandler(BaseHandler):
         if user is None:
             res['status'] = '-1'
         elif user['password'] == password:  
-            self.set_cookie('email',email) 
-            self.set_cookie('name',user['name']) 
-            self.set_cookie('uid',str(user['_id']))    
+            self.set_secure_cookie('email',email) 
+            self.set_secure_cookie('name',user['name']) 
+            self.set_secure_cookie('uid',str(user['_id']))    
             res['data'] = '''
                 <ul class="nav secondary-nav">
                     <li class="dropdown">
@@ -114,6 +114,7 @@ class LoginHandler(BaseHandler):
                       </ul>
                     </li>
                 </ul>'''%user['name']
+            res['user'] = {'uid':str(user['_id']), 'name': user['name'], 'email': email }
         else:
             res['status'] = '-2' 
         

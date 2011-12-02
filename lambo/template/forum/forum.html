@@ -3,9 +3,7 @@
 <title>资讯交流 | 投资智慧</title>
 {% end %} 
 {% block js_css %}
-<script type="text/javascript">
-var username = "{{handler.get_cookie('name')}}";
-</script>
+
 <link href="{{static_url('css/forum.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{static_url('js/jquery-ui-1.8.16.core-min.js')}}"></script>
 <script src="{{static_url('js/jquery.ui.draggable.min.js')}}"></script>
@@ -93,19 +91,7 @@ var username = "{{handler.get_cookie('name')}}";
 	            	<input class="search" type="text" placeholder="输入成员名字">
 		            <div class="mem-board scrollbar">
 		            <span>在线成员（20/160）</span>
-		            <ul class="mem-list">
-		            <li class="active clearfix">
-		            	<a href="#" class="pull-left"><img src="{{static_url('img/avatar/0.jpg')}}"></a> 
-		            	<a href="#" class="pull-left">洪磊明</a>
-		            </li>
-		            {% for i in range(20) %} 
-		            {% set num = randrange(10) %}
-		            	<li class="clearfix">
-		            	<a href="#"><img src="{{static_url('img/avatar/%s.jpg'%num)}}"></a> 
-		            	<a href="#" class="name">洪磊明</a>
-		            	</li>
-		            {% end %}
-		            </ul>
+		            <ul id="mem-list" class="mem-list">  </ul>
 		            </div>
 	            </div> 
             </div>

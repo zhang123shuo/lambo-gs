@@ -21,11 +21,11 @@ function showChatRoom(){
 	$("#msg-board").prop({ scrollTop : $("#msg-board").prop("scrollHeight")}); 
 	$('#msg-box').focus();
 	if(!eventSocket){ 
-		init_ws("ws://localhost:8080/im",username);
+		init_ws("ws://localhost:8080/im");
 	}
 	return true;
 } 
-$(function(){     
+$(function(){       
 	$('#chatroom').modal({keyboard:true})
 	$("#chatroom").draggable({handle: 'div.modal-header'}); 
 	enablePopupIMBox(); 
