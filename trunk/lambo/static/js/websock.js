@@ -329,7 +329,7 @@ if (!JSON) {
 /** websocket encapsulation **/
 
 function pack_event(event,data){
-	msg = { 'event': event, 'data': data }
+	msg = { 'event': event, 'data': data } 
 	return JSON.stringify(msg);
 }
 function unpack_event(message){

@@ -3,7 +3,9 @@ function publish() {
 	var value = $('#msg-box').val(); 
 	if($.trim(value)=='') return;
 	eventSocket.emit('publish', {
-		'body' : value
+		'user': g_logged_user.name,
+		'body': value,
+		'time': new Date().getTime()
 	});
 	$("#msg-box").val('');
 }
@@ -19,17 +21,59 @@ function enableQuickSend() {
 		}
 	});
 }
-function init_ws(host,username) {
+function append_msg(data){
+	var time = new Date(data.time).format("H:i:s"); 
+	var title = '<a href="#">'+data.user+'</a> <span>['+time+']</span>';
+	var msg = "<li>" + title + "<p>" + data.body + "</p></li>";
+	$("#msgs").append(msg);
+}
+function scroll_board(){
+	$("#msg-board").prop({ scrollTop : $("#msg-board").prop("scrollHeight")});
+}
+
+function rand(){
+	return Math.floor(Math.random()*10);
+}
+function user_online(u){
+	if($("#"+u.uid).length>0) return;
+	var user_item = '<li ' + 'id="' + u.uid + '"class="clearfix">' +
+		'<a href="#" class="pull-left"><img src="/static/img/avatar/'+rand()+'.jpg"></a>'+
+		'<a href="#" class="pull-left">' + u.name + '</a></li>';
+	$("#mem-list").append(user_item);
+}
+function user_offline(u){
+	$("#"+u.uid).remove();
+}
+function presence_changed(data){
+	var u = data.user;
+	if(data.status=='offline'){
+		user_offline(u);
+	}else if(data.status=='online'){ 
+		user_online(u);
+	}
+}
+function init_ws(host) {
 	if ("WebSocket" in window || 'MozWebSocket' in window ) {
 		eventSocket = new EventSocket(host); 
 		eventSocket.on("publish", function(data) { 
-			var time = new Date().format("H:i:s");
-			var title = '<a href="#">'+username+'</a> <span>['+time+']</span>';
-			var msg = "<li>" + title + "<p>" + data.body + "</p></li>";
-			$("#msgs").append(msg);
-			$("#msg-board").prop({ scrollTop : $("#msg-board").prop("scrollHeight")});
+			append_msg(data);
+			scroll_board();
 		});
- 
+		eventSocket.on("init", function(data) { 
+			$("#msgs li").remove();
+			var msglist = data.history;
+			for(var i=0;i<msglist.length;i++){
+				append_msg(msglist[i]);
+			}
+			var users = data.online_users;
+			for(var i=0;i<users.length;i++){
+				user_online(users[i]);
+			}
+			scroll_board();
+		});
+		eventSocket.on("presence", function(data) {  
+			presence_changed(data);
+		});
 	} else {
 		alert("WebSocket not supported");
 	}
