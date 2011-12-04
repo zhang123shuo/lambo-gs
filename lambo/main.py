@@ -42,6 +42,7 @@ def main():
         template_path = os.path.join(os.path.dirname(__file__),'template'),
         cookie_secret = "11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
         autoescape = None, 
+        websocket_host = 'ws://localhost:8080/im',
     ) 
     handlers = build_handlers()
     

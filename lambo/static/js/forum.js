@@ -21,10 +21,38 @@ function showChatRoom(){
 	$("#msg-board").prop({ scrollTop : $("#msg-board").prop("scrollHeight")}); 
 	$('#msg-box').focus();
 	if(!eventSocket){ 
-		init_ws("ws://localhost:8080/im");
+		init_ws(g_websocket_host);
 	}
 	return true;
 } 
+
+function categoryClicked(target){ 
+	$target = $(target);
+	if($target.hasClass("active")) return;
+	$ul = $target.parent();
+	$(".active",$ul).removeClass("active");
+	$target.addClass("active");
+	
+	$.get('./filter',{ 'cid':$target.val()},function(data){
+		$("#threads").html(data);
+	});
+}
+function show_body(tid){ 
+	if($("#"+tid+" .slide").children().length>0){
+		$("#"+tid+" .snapshot").hide();
+		$("#"+tid+" .slide").show();
+		return;
+	}
+	$.get('./thread/'+tid,function(data){
+		$("#"+tid+" .snapshot").hide();
+		$("#"+tid+" .slide").html(data).show();
+	});
+}
+
+function hide_body(tid){ 
+	$("#"+tid+" .snapshot").show();
+	$("#"+tid+" .slide").hide();
+}
 $(function(){       
 	$('#chatroom').modal({keyboard:true})
 	$("#chatroom").draggable({handle: 'div.modal-header'}); 

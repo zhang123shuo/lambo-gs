@@ -37,7 +37,29 @@ class ForumHandler(ForumBaseHandler):
             threads.append(thread)
          
         self.render('forum/forum.html',cats=categories,threads=threads, hot_tags=hot_tags)
- 
+
+class ForumFilterHandler(ForumBaseHandler):  
+    def get(self):
+        cid = self.get_argument('cid','-1') #category id, -1 means all
+        sort = self.get_argument('sort',None) #category id
+        start = self.get_argument('idx',0)  #start of forum threads to pull/for paging
+        count = self.get_argument('cnt',20) #count of forum threads to pull/for paging
+        
+        threads,filter = [],{}
+        if cid != '-1':
+            filter['category'] = cid
+            
+        for thread in self.db.threads.find(filter,{'content':0}).sort('created_at',-1).skip(start).limit(count):
+            threads.append(thread)
+        self.render('forum/thread-list.html',threads=threads)
+
+class ThreadHandler(ForumBaseHandler):  
+    def get(self,tid): 
+        thread = self.db.threads.find_one({'_id': _id(tid)}) 
+        self.render('forum/thread.html',thread=thread)
+        
 handlers = [ 
     ('', ForumHandler),
+    ('filter', ForumFilterHandler),
+    ('thread/([^/]*)', ThreadHandler),
 ]  

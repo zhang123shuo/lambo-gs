@@ -77,19 +77,20 @@
       }
 
     </style> 
-    <script src="{{static_url('js/jquery-1.7.1.min.js')}}"></script>
-    <script src="{{static_url('js/common.js')}}"></script>
     <script type="text/javascript">
-    {% if current_user %}
-    var g_logged_user = {
-		'name': "{{handler.get_secure_cookie('name')}}",
-		'uid': "{{handler.get_secure_cookie('uid')}}",
-		'email': "{{handler.get_secure_cookie('email')}}"
-	}; 
-    {% else %}
-    var g_logged_user = null;
-    {% end %}
+	    {% if current_user %}
+	    var g_logged_user = {
+			'name': "{{handler.get_secure_cookie('name')}}",
+			'uid': "{{handler.get_secure_cookie('uid')}}",
+			'email': "{{handler.get_secure_cookie('email')}}"
+		}; 
+	    {% else %}
+	    var g_logged_user = null;
+	    {% end %}
+	    var g_websocket_host = "{{handler.settings['websocket_host']}}";
 	</script>
+    <script src="{{static_url('js/jquery-1.7.1.min.js')}}"></script>
+    <script src="{{static_url('js/common.js')}}"></script>   
     {% block js_css %}
     
     {% end %}
@@ -100,9 +101,9 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="/">国信投资研究</a>
+          <a class="brand" href="#">国信投资研究</a>
           <ul class="nav">
-            <li class="active"><a href="/">资讯交流</a></li>
+            <li class="active"><a href="#">资讯交流</a></li>
             <li><a href="#about">投资模型</a></li>
             <li><a href="#contact">研究报告</a></li>
           </ul>

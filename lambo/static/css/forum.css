@@ -25,18 +25,26 @@ ul.category > li.active a{
  
 ul.threads > li{   
 	border-bottom: 1px #CCC dashed; 
-	padding: 10px 0;
+	
 }
 ul.threads > li a{ 
 	font-weight: bold;
 }
-.thread img{
+.thread .author img{
 	width: 32px;
 	height: 32px;
 }
-.thread > div{ 
+.thread .snapshot{
+	padding: 10px 0;
+}
+.thread .snapshot > div{ 
 	float: left;
 }
+
+.thread .slide{
+	border: 1px #CCC solid; 
+}
+
 .thread div.summary{ 
 	margin-left: 6px;
 }
@@ -112,8 +120,7 @@ div.hot-tags{
 }
 #chatroom .modal-header{
 	padding: 6px 10px;
-	border-bottom: none;
-	cursor: pointer;
+	border-bottom: none; 
 }
 #chatroom .modal-header .close{
 	margin-top: 4px;
