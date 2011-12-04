@@ -46,7 +46,11 @@ class BaseHandler(tornado.web.RequestHandler):
     @property  
     def db(self):  #get application mongodb instance
         return self.application.db 
-      
+    
+    @property  
+    def settings(self):  #get application mongodb instance
+        return self.application.settings 
+    
     @property
     def upload_path(self):
         return self.settings['upload_path']

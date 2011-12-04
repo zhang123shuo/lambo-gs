@@ -37,14 +37,14 @@ class WebIMHandler(WebSocketEventHandler):
         return {
             'uid': self.get_secure_cookie('uid'),
             'name': self.get_secure_cookie('name')
-        }
+        } 
     
     @property
     def db(self):
         return self.application.db
     
     def enlist(self):
-        user = self.logged_user 
+        user = self.logged_user  
         logging.warning('connected, %s'%user['uid'])    
         WebIMHandler.cached_sockets[user['uid']] = self.ws_connection
         WebIMHandler.cached_users[user['uid']] = user
@@ -63,7 +63,7 @@ class WebIMHandler(WebSocketEventHandler):
         data = {
             'history': self.timeline(),
             'online_users': WebIMHandler.cached_users.values()
-        }    
+        }     
         msg = self.pack_event('init',data)
         self.write_message(msg)
         

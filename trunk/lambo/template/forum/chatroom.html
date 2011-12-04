@@ -1,0 +1,34 @@
+<div id="chatroom" class="modal hide  in">
+	<div class="modal-header">
+		<a href="#" class="close">×</a> <span>资讯交流聊天室</span>
+	</div>
+	<div class="modal-body">
+		<div class="left-board">
+			<div id="msg-board" class="msg-board scrollbar">
+				<ul id="msgs" class="msgs">
+
+				</ul>
+			</div>
+			<div class="msg-smiles clearfix">
+				<a href="#"><img src="{{static_url('img/smiles/smile.png')}}"> <span>表情</span> </a>
+			</div>
+			<div class="msg-box">
+				<textarea id="msg-box" placeholder="Ctrl+Enter发送,Enter换行"></textarea>
+			</div>
+			<div class="msg-cmd">
+				<a href="#" onclick="publish();" class="btn primary pull-right">发 送</a> 
+				<span class="hint pull-right">Ctrl + Enter 发送</span>
+			</div>
+		</div>
+
+		<div class="right-board">
+			<input class="search" type="text" placeholder="输入成员名字">
+			<div class="mem-board scrollbar">
+				<span>在线成员（20/160）</span>
+				<ul id="mem-list" class="mem-list">
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
