@@ -65,9 +65,11 @@
       .content .span4 {
         margin-left: 0;
         padding-left: 19px;
-        border-left: 1px solid #eee;
-      }
 
+      }
+	  .content .span12{
+
+	  }
       .topbar .btn {
         border: 0;
       }
@@ -101,7 +103,10 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#">国信投资研究</a>
+          <a class="brand">国信投资研究
+          <img src="{{static_url('img/lab.png')}}" style="width:16px; height:16px;">
+          <span class="label important">beta</span>
+          </a> 
           <ul class="nav">
             <li class="active"><a href="#">资讯交流</a></li>
             <li><a href="#about">投资模型</a></li>

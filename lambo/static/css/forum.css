@@ -24,8 +24,7 @@ ul.category > li.active a{
 
  
 ul.threads > li{   
-	border-bottom: 1px #CCC dashed; 
-	
+	border-bottom: 1px #DDD dashed; 
 }
 ul.threads > li a{ 
 	font-weight: bold;
@@ -43,7 +42,39 @@ ul.threads > li a{
 
 .thread .slide{
 	border: 1px #CCC solid; 
+	margin: 12px 0;
+	border: 1px solid #DDD;
+	box-shadow: 0 0 3px #DDDDDD;
+	-moz-box-shadow: 0 0 3px #DDDDDD;
+	-webkit-box-shadow: 0 0 3px #DDDDDD;
+	-o-box-shadow: 0 0 3px #DDDDDD;
+	border-radius: 3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
 }
+.slide .wrapper{
+	padding: 8px;
+}
+.slide .head{
+	position: relative;
+	margin: 4px 0 8px 0;
+}
+
+.slide .head .close{
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.slide .attach{
+	padding: 19px 17px 23px 22px;
+	border-top: 1px solid #DDD;
+	font-size: 14px;
+	background: #F3F3F3;
+	overflow: hidden;
+	zoom: 1;
+}
+
+
 
 .thread div.summary{ 
 	margin-left: 6px;
