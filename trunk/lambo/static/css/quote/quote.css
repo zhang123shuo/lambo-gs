@@ -1,0 +1,50 @@
+body {
+	background-color: black;
+}
+.container > .content {
+    background-color: black;
+    font-size: 10px;
+}
+line.normal {
+	stroke: red;
+	shape-rendering: crispEdges;
+}
+line.bold {
+	stroke: red;
+	stroke-width: 2px;
+	shape-rendering: crispEdges;
+}
+line.dash {
+	stroke: red;
+	shape-rendering: crispEdges;
+	stroke-dasharray: 2;
+}
+text {
+	fill: yellow;
+}
+.line {
+	fill: none;
+	stroke: white;
+	stroke-width: 1px;
+}
+
+div.footer{
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	right: 0px; 
+	height: 18px;
+	padding-top: 2px;
+	font-size: 14px; 
+	color: red; 
+	background-color: #ddd;
+}
+.footer > .block{
+	margin-right: 10px;
+}
+.block >span:FIRST-CHILD {
+	color: black;
+}
+.block> span{
+	margin-left: 6px;
+}

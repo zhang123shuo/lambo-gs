@@ -24,8 +24,9 @@ class WebIMHandler(WebSocketEventHandler):
     
     def timeline(self,start=0,count=20):
         logging.warn('timeline from %s'%start) 
-        cursor = self.db.msgs.find({},{'_id':0}).limit(count)
+        cursor = self.db.msgs.find({},{'_id':0}).sort('time',-1).limit(count)
         msgs = [m for m in cursor]
+        msgs.reverse()
         return msgs
     
     def broadcast(self,msg):

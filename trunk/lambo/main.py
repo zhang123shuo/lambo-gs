@@ -32,6 +32,9 @@ def build_handlers():
     from apps.im import handlers
     prefixing_handlers(all_handlers, '/im', handlers) 
     
+    from apps.quote import handlers
+    prefixing_handlers(all_handlers, '/quote', handlers) 
+    
     return all_handlers
      
 def main():

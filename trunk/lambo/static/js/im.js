@@ -34,15 +34,20 @@ function scroll_board(){
 function rand(){
 	return Math.floor(Math.random()*10);
 }
+function set_online_count(){
+	$("#online-count").html($("#mem-list").children().length);
+}
 function user_online(u){
 	if($("#"+u.uid).length>0) return;
 	var user_item = '<li ' + 'id="' + u.uid + '"class="clearfix">' +
 		'<a href="#" class="pull-left"><img src="/static/img/avatar/'+rand()+'.jpg"></a>'+
 		'<a href="#" class="pull-left">' + u.name + '</a></li>';
 	$("#mem-list").append(user_item);
+	set_online_count();
 }
 function user_offline(u){
 	$("#"+u.uid).remove();
+	set_online_count();
 }
 function presence_changed(data){
 	var u = data.user;
@@ -51,6 +56,7 @@ function presence_changed(data){
 	}else if(data.status=='online'){ 
 		user_online(u);
 	}
+	
 }
 function init_ws(host) {
 	if ("WebSocket" in window || 'MozWebSocket' in window ) {
