@@ -108,7 +108,7 @@ class LoginHandler(BaseHandler):
             self.set_secure_cookie('email',email) 
             self.set_secure_cookie('name',user['name']) 
             self.set_secure_cookie('uid',str(user['_id']))    
-            res['data'] = '''
+            res['data'] = u'''
                 <ul class="nav secondary-nav">
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle">%s</a>
