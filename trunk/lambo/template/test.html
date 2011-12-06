@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>d3 test</title>
-    <link href="{{static_url('css/bootstrap-1.4.min.css')}}" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="{{static_url('js/d3.js')}}"></script> 
-  </head>
+   <meta charset="utf-8">
+ 	<title>test</title>
+ 	<script src="{{static_url('js/dragresize.js')}}"></script> 
+ 	<link href="{{static_url('css/common.css')}}" rel="stylesheet" type="text/css" />
+<script type="text/javascript"> 
+var drag = new DragResize('drag', { minWidth: 50, minHeight: 50}); 
+drag.isElement = function(elm){
+	if (elm.className && elm.className.indexOf('drsElement') > -1) return true;
+};
+drag.isHandle = function(elm){
+ 	if (elm.className && elm.className.indexOf('drsMoveHandle') > -1) return true;
+}; 
+drag.apply(document);
 
-  <body>
-	<script type="text/javascript">
-		var matrix = [ 
-		        [ 11975, 5871, 8916, 2868 ],
-				[ 1951, 10048, 2060, 6171 ], 
-				[ 8010, 16145, 8090, 8045 ],
-				[ 1013, 990, 940, 6907 ] 
-		        ];
+//]]>
+</script>
 
-	var tr = d3.select("body").append("table").selectAll("tr")
-	    .data(matrix)
-	  .enter().append("tr");
+</head> 
+<!--
+ Here's our draggable elements.
+ All that's required is that they have a relative or absolute CSS 'position',
+ and are matched by the isElement/isHandle methods of a DragResize object.
+ Easy!
+-->
 
-	var td = tr.selectAll("td")
-	    .data(function(d) { return d; })
-	  .enter().append("td")
-	    .text(function(d) { return d; });
-	
-	</script>
-    
-  </body>
-</html> 
+<div class="drsElement" style="left: 50px; top: 0px; width: 650px; height: 420px;">
+ 	<div class="drsMoveHandle">Div 0</div>
+ Content
+</div>
+ 
+ 
+
+</body>
+</html>

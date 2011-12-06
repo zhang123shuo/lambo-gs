@@ -53,9 +53,21 @@ function hide_body(tid){
 	$("#"+tid+" .snapshot").show();
 	$("#"+tid+" .slide").hide();
 }
+
+function init_draggable(){
+	var drag = new DragResize('drag', { minWidth: 50, minHeight: 50}); 
+	drag.isElement = function(elm){
+		if (elm.className && elm.className.indexOf('drsElement') > -1) return true;
+	};
+	drag.isHandle = function(elm){
+	 	if (elm.className && elm.className.indexOf('drsMoveHandle') > -1) return true;
+	}; 
+	drag.apply(document);
+}
 $(function(){       
-	$('#chatroom').modal({keyboard:true})
-	$("#chatroom").draggable({handle: 'div.modal-header'}); 
+	$('#chatroom').modal({keyboard:true}) 
+	//$("#chatroom").draggable({handle: 'div.modal-header'}); 
+	init_draggable();
 	enablePopupIMBox(); 
 });
  
