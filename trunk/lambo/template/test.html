@@ -1,37 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-   <meta charset="utf-8">
- 	<title>test</title>
- 	<script src="{{static_url('js/dragresize.js')}}"></script> 
- 	<link href="{{static_url('css/common.css')}}" rel="stylesheet" type="text/css" />
-<script type="text/javascript"> 
-var drag = new DragResize('drag', { minWidth: 50, minHeight: 50}); 
-drag.isElement = function(elm){
-	if (elm.className && elm.className.indexOf('drsElement') > -1) return true;
-};
-drag.isHandle = function(elm){
- 	if (elm.className && elm.className.indexOf('drsMoveHandle') > -1) return true;
-}; 
-drag.apply(document);
+{% extends base.html %} 
+{% block title %}
+<title>TEST | 投资智慧</title>
+{% end %} 
+{% block js_css %}
 
-//]]>
+<link href="{{static_url('css/forum.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{static_url('js/jquery-ui-1.8.16.core-min.js')}}"></script>
+<script src="{{static_url('js/jquery.ui.draggable.min.js')}}"></script>  
+{% end %} 
+
+
+{% block content %}
+<div id="chatroom" class="modal">
+	<div id="chatroom-header" class="modal-header">
+		<a href="#" class="close">×</a> <span>资讯交流聊天室</span>
+	</div> 
+</div>
+
+
+<script type="text/javascript">
+$("#chatroom").draggable({handle: 'div.modal-header'});  
 </script>
 
-</head> 
-<!--
- Here's our draggable elements.
- All that's required is that they have a relative or absolute CSS 'position',
- and are matched by the isElement/isHandle methods of a DragResize object.
- Easy!
--->
-
-<div class="drsElement" style="left: 50px; top: 0px; width: 650px; height: 420px;">
- 	<div class="drsMoveHandle">Div 0</div>
- Content
-</div>
- 
- 
-
-</body>
-</html>
+{% end %}
