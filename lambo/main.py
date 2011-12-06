@@ -8,21 +8,15 @@ from tornado.options import define, options
 import os.path  
 define('port', default=8080,type=int)   
 define('mongodb_host', default='localhost:27017,localhost:27018,localhost:27019')
-  
-class TestHandler(tornado.web.RequestHandler):
-    def get(self,name):
-        self.render(name)  
-
-
+   
 def prefixing_handlers(handlers, prefix, module_handlers): 
     for i in range(len(module_handlers)):
         module_handlers[i] = (prefix + module_handlers[i][0], module_handlers[i][1])
     handlers.extend(module_handlers)
          
 def build_handlers(): 
-    all_handlers = [ 
-        (r'/test/([^/]+)', TestHandler)
-    ] 
+    all_handlers = []  
+    
     from apps.forum import handlers
     prefixing_handlers(all_handlers, '/', handlers) 
     
