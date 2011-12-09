@@ -1,88 +1,61 @@
-var data = d3.range(40).map(function(i) {
-  return {x: i / 39, y: 20+10*Math.random()};
-}); 
-	  
-	  
-function transform(data){  
-	var	p = 30,
-		w = 960 - 2*p,
-		h = window.innerHeight - 2*p - 100 ,
-	    x = d3.scale.linear().domain([0, 1]).range([0, w]),
-	    y = d3.scale.linear().domain([20, 30]).range([h, 0]); 
-	
- 	d3.select("#my_svg").remove(); 
- 	
-	var vis = d3.select("#container")
-		.data([data])
-		.append("svg:svg")
-		  .attr("id","my_svg")
-		  .attr("width", w + p * 2)
-		  .attr("height", h + p * 2)
-		.append("svg:g")
-		  .attr("transform", "translate(" + p + "," + 10 + ")");
-	 
-	//x-axis
-	var x_ticks = x.ticks(10);
-	var axis_x_count = x_ticks.length;
-	var rules = vis.selectAll("g.rulex")
-	    .data(x_ticks)
-	  .enter().append("svg:g")
-	    .attr("class", "rulex");
-	
-	function axis_x_style(d,i){
-		if(i==0 || i==axis_x_count-1) return "normal";
-		if(i == Math.floor(axis_x_count/2)) return "bold";
-		return "dash";
-	}
-	rules.append("svg:line")
-		.attr("class", axis_x_style)
-		.attr("x1", x)
-		.attr("x2", x)
-		.attr("y1", 0)
-		.attr("y2", h);   
-	rules.append("svg:text")
-		.attr("x", x)
-		.attr("y", h + 3)
-		.attr("dy", ".71em")
-		.attr("text-anchor", "middle")
-		.text(x.tickFormat(axis_x_count));
- 
-	
-	//y-axis
-	var y_ticks = y.ticks(20);
-	var axis_y_count = y_ticks.length;
-	var rules = vis.selectAll("g.ruley")
-		.data(y_ticks)
-		.enter().append("svg:g")
-		.attr("class", "ruley");
-	function axis_y_style(d,i){ 
-		if(i == Math.floor(axis_y_count/2)) return "bold";
-		return "normal";
-	}   
-	rules.append("svg:line")
-	    .attr("class", axis_y_style)
-	    .attr("y1", y)
-	    .attr("y2", y)
-	    .attr("x1", 0)
-	    .attr("x2", w + 1);
-	 
-	
-	rules.append("svg:text")
-	    .attr("y", y)
-	    .attr("x", -3)
-	    .attr("dy", ".35em")
-	    .attr("text-anchor", "end")
-	    .text(y.tickFormat(axis_y_count));
-	
-	vis.data([data])
-		.append("svg:path")
-		.attr("class", "line")
-		.attr("d", d3.svg.line()
-				.x(function(d) { return x(d.x); })
-				.y(function(d) { return y(d.y); }));
+var pre_selected, body;
 
+function q_line_clicked(target){ 
+	var current = $(target);
+	if (pre_selected) pre_selected.removeClass('line_selected');
+	current.addClass('line_selected');
+	pre_selected = current;
 }
-transform(data);
-window.onresize = function(event){
-	transform(data);
+function scroll_line(){  
+	var cur = pre_selected.position().top;
+	var height = pre_selected.height();  
+	if(cur > window.innerHeight-20){  
+		body.scrollBy(0,height);
+	}
+	if(cur-height-20 < 0){
+		body.scrollBy(0,-height);
+	}
 }
+function next_line(){  
+	if(!pre_selected){
+		pre_selected = $("#1");
+		pre_selected.addClass('line_selected');
+		return;
+	} 
+	if(pre_selected.next().length==0){
+		return;
+	}
+	pre_selected.removeClass('line_selected')
+	pre_selected = pre_selected.next();
+	pre_selected.addClass('line_selected'); 
+	scroll_line();
+}
+function prev_line(){ 
+	if(!pre_selected){
+		pre_selected = $("#1");
+		pre_selected.addClass('line_selected');
+		return;
+	}
+	if(pre_selected.prev().length==0){
+		return;
+	}
+	pre_selected.removeClass('line_selected')
+	pre_selected = pre_selected.prev();
+	pre_selected.addClass('line_selected'); 
+	scroll_line();
+}
+$(function(){ 
+
+	body = $('body').get(0); 
+	
+	$(document).keydown(function(e) {  
+		if(e.which==40){ //down
+			next_line();  
+			return false;
+		}else if(e.which==38){ //up
+			prev_line();  
+			return false;
+		}
+	}); 
+});
+ 

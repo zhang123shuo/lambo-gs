@@ -1,9 +1,27 @@
+html { 
+	overflow: auto;
+	background-color: #080808;  
+
+}
 body {
-	background-color: black;
+	background-color: #080808; 
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    bottom: 0px;
+    right: 4px;
+    padding: 0px;  
+    overflow-y: scroll;
+	overflow-x: hidden;
+}
+.container {
+    width: 96%;
+
 }
 .container > .content {
-    background-color: black;
+    background-color: #080808; 
     font-size: 10px;
+    padding: 0;
 }
 line.normal {
 	stroke: red;
@@ -36,15 +54,95 @@ div.footer{
 	height: 18px;
 	padding-top: 2px;
 	font-size: 14px; 
-	color: red; 
-	background-color: #ddd;
+	color: #C00;  
+	background-color: #222;
+	background-repeat: repeat-x;
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#333333), to(#222222));
+	background-image: -moz-linear-gradient(top, #333333, #222222);
+	background-image: -ms-linear-gradient(top, #333333, #222222);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #333333), color-stop(100%, #222222));
+	background-image: -webkit-linear-gradient(top, #333333, #222222);
+	background-image: -o-linear-gradient(top, #333333, #222222);
+	background-image: linear-gradient(top, #333333, #222222);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#222222', GradientType=0);
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 .footer > .block{
 	margin-right: 10px;
 }
 .block >span:FIRST-CHILD {
-	color: black;
+	color: #CC8;
 }
 .block> span{
 	margin-left: 6px;
+}
+
+
+.line_selected{ 
+	background-color: #333;
+}
+
+.quotes{
+	font-size: 16px;
+	color: #BBB; 
+}
+.quotes thead{
+	border-bottom: 1px solid #C00;
+}
+.quotes th{
+	padding: 4px 6px; 
+}
+.quotes .header{
+	color: #FFF;
+	font-weight: normal; 
+}
+
+.quotes th{
+	text-align: center; 
+}
+.quotes td{
+	text-align: right;
+	border: none;
+	padding: 4px 20px 4px 4px;  
+	cursor: default;
+}
+
+.quotes td.name{
+	text-align: left;
+	color: #CC8;
+	padding: 4px 4px 4px 4px;  
+}
+.quotes td.code{ 
+	color: #CC8;
+	font-weight: bold;
+}
+.quotes td.idx{ 
+	color: #999;
+	padding: 4px 4px 4px 4px;  
+	font-weight: bold;
+	width: 36px;
+}
+.quotes td.pos{ 
+	color: #C00; 
+}
+.quotes td.neg{ 
+	color: #0C0; 
+}
+
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	background: rgba(255, 0, 0, 0.5);
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
 }
