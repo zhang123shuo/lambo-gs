@@ -1,0 +1,80 @@
+{% extends ../base.html %} 
+{% block title %}
+<title>AXIS | 投资智慧</title>
+{% end %} 
+
+{% block js_css %}
+<script type="text/javascript" src="{{static_url('js/d3/d3.min.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/d3/d3.time.min.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/d3/d3.csv.js')}}"></script>
+<link type="text/css" rel="stylesheet" href="{{static_url('css/quote/quote.css')}}"/>
+
+<style type="text/css">
+
+path.line {
+  fill: none;
+  stroke: #FFF;
+  stroke-width: 1.5px;
+}
+
+path.area {
+  fill: #C00;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.x.axis line {
+  stroke: #000;
+}
+
+.x.axis .minor {
+  stroke-opacity: .5;
+  stroke: #000;
+}
+
+.x.axis path {
+  display: none;
+  stroke: #000;
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: #C00;
+}
+</style>
+{% end %} 
+
+{% block content %}
+<div id="svg"></div>
+<script>
+
+var m = [20, 20, 20, 20],
+	w = 960 - m[1] - m[3],
+	h = 140 - m[0] - m[2],
+	parse = d3.time.format("%b %Y").parse;
+
+var x = d3.time.scale().range([0,w]),
+	y = d3.scale.linear().range([0,h]);
+
+var xAxis = d3.svg.axis()
+	.scale(x)
+	.tickSize(-h);
+
+var area = d3.svg.area()
+	.interpolate("monotone")
+	.x(function(d) { return x(d.date); })
+	.y0(h)
+	.y1(function(d){ return y(d.price); });
+
+ 
+ 
+ 
+</script> 
+ 
+ 
+{% end %}
+
+{% block footer %}
+{% end %}
