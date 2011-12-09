@@ -13,6 +13,24 @@ import datetime
 one_day = datetime.timedelta(days=1)
 one_hour = datetime.timedelta(hours=1)
 
+def q_class(value):
+    value = float(value)
+    if value<0: 
+        return 'neg'
+    if abs(value)<1e-2:
+        return 'eq'
+    return 'pos'
+def q_class2(value1,value2):
+    value1 = float(value1)
+    value2 = float(value2)
+    return q_class(value1-value2)
+
+def q_money(value):
+    value = float(value)
+    if value/100000000 >= 1:
+        return u'%.1f亿'%(value/100000000)
+    
+    return u'%.0f万'%(value/10000)
 
 def time_fmt(value):     
     tm_now = time.localtime()    
