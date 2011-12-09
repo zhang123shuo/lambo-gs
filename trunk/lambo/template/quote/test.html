@@ -23,16 +23,17 @@
 <div id="svg"></div>
 <script>
 
-var m = [20, 40, 20, 40],
+var m = [20, 40, 20, 30],
     w = 960 - m[1] - m[3],
     h = 500 - m[0] - m[2],
-    x = d3.time.scale().domain([new Date(2011, 07, 01), new Date(2011, 07, 18)]).range([0, w]),
+    x = d3.time.scale().domain([new Date(2011, 07, 01), new Date(2011, 07, 11)]).range([0, w]),
     y = d3.scale.sqrt().range([h, 0]);
-
+ 
 var xAxis = d3.svg.axis()
     .scale(x)
     .ticks(d3.time.days)
     .tickFormat(d3.time.format("%m/%d"));
+ 
 
 var yAxis = d3.svg.axis()
     .scale(y);

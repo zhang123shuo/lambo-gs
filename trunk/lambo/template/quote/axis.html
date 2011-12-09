@@ -1,0 +1,76 @@
+{% extends ../base.html %} 
+{% block title %}
+<title>AXIS | 投资智慧</title>
+{% end %} 
+
+{% block js_css %}
+<script type="text/javascript" src="{{static_url('js/d3/d3.min.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/d3/d3.time.min.js')}}"></script>
+<link type="text/css" rel="stylesheet" href="{{static_url('css/quote/quote.css')}}"/>
+
+<style type="text/css">
+	rect {
+	  	fill: #C00;
+	}
+	
+	.grid line {
+	  	stroke: #fff;
+	  	stroke-width: 1px;
+	}
+	
+	.grid line.minor {
+	  	stroke-width: .5px;
+	}
+	
+	.grid text {
+	  	display: none;
+	}
+	
+	.axis line {
+	  	stroke: #FFF;
+	}
+	
+	path {
+	  	display: none;
+	}
+
+</style>
+{% end %} 
+
+{% block content %}
+<div id="svg"></div>
+<script>
+var m = [10, 10, 20, 10],
+	w = 960 - m[1] - m[3],
+	h = 80 - m[0] - m[2],
+	x = d3.scale.linear().domain([0.05, .95]).range([0, w]),
+	y = d3.scale.linear().range([0, h]);
+
+
+var svg = d3.select("#svg").append("svg:svg")
+	.attr("width", w + m[1] + m[3])
+	.attr("height", h + m[0] + m[2])
+	.append("svg:g")
+	.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+svg.append("svg:rect")
+	.attr("width",w)
+	.attr("height",h);
+	
+svg.append("svg:g")
+	.attr("class","x grid")
+	.attr("transform", "translate(0," + h + ")")
+	.call(d3.svg.axis().scale(x).tickSubdivide(1).tickSize(-h));
+ 
+svg.append("svg:g")
+	.attr("class", "x axis")
+	.attr("transform", "translate(0," + h + ")")
+	.call(d3.svg.axis().scale(x));
+
+</script> 
+ 
+ 
+{% end %}
+
+{% block footer %}
+{% end %}

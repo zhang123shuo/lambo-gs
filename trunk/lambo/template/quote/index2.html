@@ -1,0 +1,68 @@
+{% extends ../base.html %} 
+{% block title %}
+<title>资讯交流 | 投资智慧</title>
+{% end %} 
+{% block js_css %}
+<link type="text/css" rel="stylesheet" href="{{static_url('css/quote/quote.css')}}"/>
+<script src="{{static_url('js/quote/quote.js')}}"></script>
+{% end %} 
+{% block content %} 
+<ul class="quotes ">
+
+{% set i=0 %}
+{% for q in quotes %}
+	{% set i += 1 %} 
+	{% set closed = q['closed'] %} 
+  	<li id="{{i}}" onmousedown="q_line_clicked(this);">
+  		 <span class="idx">{{i}}</span>
+	     <span class="code">{{q['code']}}</span>
+	     <span class="name">{{q['name']}}</span>
+	     {% set value = uniform(-0.1,0.1)*100 %}
+	     <span class="{{q_class(value)}}">{{'%.2f'%value}}</span> <!-- 涨跌幅 -->
+	     <span class="{{q_class(value)}}">{{q['price']}}</span>
+	     <span class="{{q_class(value)}}">{{'%.2f'%(value*float(q['open'])/100)}}</span><!-- 涨跌额 -->
+	     <span>{{q_money(q['turnover'])}}</span>
+	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
+	     <span>{{'%.1f'%(uniform(20,200))}}</span>
+	     <span class="{{q_class2(q['buy1'][1],closed)}}">{{q['buy1'][1]}}</span>
+	     <span class="{{q_class2(q['sell1'][1],closed)}}">{{q['sell1'][1]}}</span>
+	     <span class="{{q_class2(q['open'],closed)}}">{{q['open']}}</span>
+	     <span>{{closed}}</span>
+	     <span class="{{q_class2(q['highest'],closed)}}">{{q['highest']}}</span>
+	     <span class="{{q_class2(q['lowest'],closed)}}">{{q['lowest']}}</span>
+	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
+ 	</li> 
+{% end %} 
+</ul>
+
+
+<div class="footer">
+	<span class="block">
+	    <span class="b">上证</span>
+	    <span>2528.71</span> 
+	    <span>+2.63</span>
+	    <span>0.03%</span>
+	    <span>276亿</span>
+	</span>
+  
+   <span class="block">
+    <span>深证</span>
+    <span>10630.71</span> 
+    <span>+42.20</span>
+    <span>0.32%</span>
+    <span>176亿</span>
+   </span>
+   
+   <span class="block">
+    <span>中小</span>
+    <span>5365.12</span> 
+    <span>+5.18</span>
+    <span>0.32%</span>
+    <span>136亿</span>
+   </span>
+  </div>
+    
+	 
+{% end %}
+{% block footer %}
+{% end %}

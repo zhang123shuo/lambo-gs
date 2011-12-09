@@ -1,6 +1,7 @@
 {% from random import randrange %}
+{% from random import uniform %}
 {% from pymongo.objectid import ObjectId %}
-{% from apps.common import time_fmt %}
+{% from apps.common import time_fmt,q_class, q_class2, q_money %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,8 +47,7 @@
                 border-radius: 0 0 6px 6px;
         -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-                box-shadow: 0 1px 2px rgba(0,0,0,.15);
-        min-height: 606px;
+                box-shadow: 0 1px 2px rgba(0,0,0,.15); 
       }
 
       /* Page header tweaks */
@@ -109,8 +109,9 @@
           <span class="label important">beta</span>
           </a> 
           <ul class="nav">
-            <li class="active"><a href="#">资讯交流</a></li>
-            <li><a href="/quote" target="_blank">投资模型</a></li>
+            <li><a href="/" target="_blank">资讯交流</a></li>
+            <li class="active"><a href="/quote" target="_blank">高速行情</a></li>
+            <li><a href="#">投资模型</a></li>
             <li><a href="#contact">研究报告</a></li>
           </ul>
           {% if not current_user %}
