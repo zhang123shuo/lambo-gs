@@ -6,58 +6,66 @@
 <link type="text/css" rel="stylesheet" href="{{static_url('css/quote/quote.css')}}"/>
 <script src="{{static_url('js/quote/quote.js')}}"></script>
 {% end %} 
-{% block content %} 
-<table class="quotes ">
-<thead>
-  <tr>
-  	<th class="idx header"></th>
-    <th class="header">代码</th>
-    <th class="name header">名称</th> 
-    <th class="header">涨幅%</th>
-    <th class="header">现价</th>
-    <th class="header">涨跌</th>
-    <th class="header">成交金额 </th> 
-    <th class="header">换手%</th>
-    <th class="header">市盈率</th>
-    <th class="header">买入价</th>
-    <th class="header">卖出价</th> 
-    <th class="header">今开</th>
-    <th class="header">昨收</th>
-    <th class="header">最高</th>
-    <th class="header">最低</th>
-    <th class="header">振幅%</th>
-  </tr>
-</thead>
-<tbody> 
+{% block content %}
+<div class="quotes">
+<div class="clearfix header">
+  	<span class="idx">序号</span>
+    <span class="code">代码</span>
+    <span class="name">名称</span> 
+    <span>涨幅%</span>
+    <span>现价</span>
+    <span>涨跌</span>
+    <span>成交额 </span> 
+    <span>换手%</span>
+    <span>市盈率</span>
+    <span>买入价</span>
+    <span>卖出价</span> 
+    <span>今开</span>
+    <span>昨收</span>
+    <span>最高</span>
+    <span>最低</span>
+    <span>振幅%</span>
+</div>
+<ul class="data">
 {% set i=0 %}
 {% for q in quotes %}
 	{% set i += 1 %} 
 	{% set closed = q['closed'] %} 
-  	<tr id="{{i}}" onmousedown="q_line_clicked(this);">
-  		 <td class="idx">{{i}}</td>
-	     <td class="code">{{q['code']}}</td>
-	     <td class="name">{{q['name']}}</td>
+  	<li id="{{i}}" class="clearfix" onmousedown="q_line_clicked(this);">
+  		 <span class="idx">{{i}}</span>
+	     <span class="code">{{q['code']}}</span>
+	     <span class="name">{{q['name']}}</span>
 	     {% set value = uniform(-0.1,0.1)*100 %}
-	     <td class="{{q_class(value)}}">{{'%.2f'%value}}</td> <!-- 涨跌幅 -->
-	     <td class="{{q_class(value)}}">{{q['price']}}</td>
-	     <td class="{{q_class(value)}}">{{'%.2f'%(value*float(q['open'])/100)}}</td><!-- 涨跌额 -->
-	     <td>{{q_money(q['turnover'])}}</td>
-	     <td>{{'%.2f'%(uniform(0,0.1)*100)}}</td>
-	     <td>{{'%.1f'%(uniform(20,200))}}</td>
-	     <td class="{{q_class2(q['buy1'][1],closed)}}">{{q['buy1'][1]}}</td>
-	     <td class="{{q_class2(q['sell1'][1],closed)}}">{{q['sell1'][1]}}</td>
-	     <td class="{{q_class2(q['open'],closed)}}">{{q['open']}}</td>
-	     <td>{{closed}}</td>
-	     <td class="{{q_class2(q['highest'],closed)}}">{{q['highest']}}</td>
-	     <td class="{{q_class2(q['lowest'],closed)}}">{{q['lowest']}}</td>
-	     <td>{{'%.2f'%(uniform(0,0.1)*100)}}</td>
- 	</tr> 
+	     <span class="{{q_class(value)}}">{{'%.2f'%value}}</span> <!-- 涨跌幅 -->
+	     <span class="{{q_class(value)}}">{{q['price']}}</span>
+	     <span class="{{q_class(value)}}">{{'%.2f'%(value*float(q['open'])/100)}}</span><!-- 涨跌额 -->
+	     <span>{{q_money(q['turnover'])}}</span>
+	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
+	     <span>{{'%.1f'%(uniform(20,200))}}</span>
+	     <span class="{{q_class2(q['buy1'][1],closed)}}">{{q['buy1'][1]}}</span>
+	     <span class="{{q_class2(q['sell1'][1],closed)}}">{{q['sell1'][1]}}</span>
+	     <span class="{{q_class2(q['open'],closed)}}">{{q['open']}}</span>
+	     <span>{{closed}}</span>
+	     <span class="{{q_class2(q['highest'],closed)}}">{{q['highest']}}</span>
+	     <span class="{{q_class2(q['lowest'],closed)}}">{{q['lowest']}}</span>
+	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
+ 	</li> 
+{% end %} 
+</ul>
+</div>
+
+<div class="footer"> 
+<ul class="cats clearfix">
+{%for i in range(len(categories)) %}
+	{% set c = categories[i] %}
+	{% if i==sel %}
+	<li class="active">{{c}}</li>
+	{% else %}
+	<li>{{c}}</li>
+	{% end %}
 {% end %}
- </tbody>
-</table>
-
-
-<div class="footer">
+</ul> 
+<div class="snapshot">
 	<span class="block">
 	    <span class="b">上证</span>
 	    <span>2528.71</span> 
@@ -81,7 +89,10 @@
     <span>0.32%</span>
     <span>136亿</span>
    </span>
-  </div>
+
+</div>
+
+</div>
     
 	 
 {% end %}
