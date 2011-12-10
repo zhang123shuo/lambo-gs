@@ -5,9 +5,22 @@
 {% block js_css %}
 <link type="text/css" rel="stylesheet" href="{{static_url('css/quote/quote.css')}}"/>
 <script src="{{static_url('js/quote/db.js')}}"></script>
+
 {% end %} 
 {% block content %} 
- 
+
+<script>
+$(function(){
+	$.get('./json',function(data){
+		var quotes = data.quotes;
+		for(var q in quotes){
+			console.log(quotes[q].price);
+		}
+	});
+	
+});
+
+</script>
 {% end %}
 {% block footer %}
 {% end %}

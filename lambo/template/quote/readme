@@ -1,3 +1,21 @@
 1. web前端展示
 	1.1 
 2. websocket后端推送
+
+IndexedDB
+interface IDBObjectStore {
+    readonly attribute DOMString      name;
+    readonly attribute DOMString      keyPath;
+    readonly attribute DOMStringList  indexNames;
+    readonly attribute IDBTransaction transaction;
+    IDBRequest put (any value, optional any key) raises (DOMException);
+    IDBRequest add (any value, optional any key) raises (DOMException);
+    IDBRequest delete (any key) raises (DOMException);
+    IDBRequest get (any key) raises (DOMException);
+    IDBRequest clear () raises (DOMException);
+    IDBRequest openCursor (optional any? range, optional unsigned short direction) raises (DOMException);
+    IDBIndex   createIndex (DOMString name, DOMString keyPath, optional IDBIndexParameters optionalParameters) raises (DOMException);
+    IDBIndex   index (DOMString name) raises (DOMException);
+    void       deleteIndex (DOMString indexName) raises (DOMException);
+    IDBRequest count (optional any key) raises (DOMException);
+};
