@@ -49,6 +49,8 @@ def main():
     conn = Connection(options.mongodb_host) 
     app.db = conn['promise']
     app.cached_users = {} 
+    import apps.quote
+    apps.quote.load_quotes(app.db)
     
     server = tornado.httpserver.HTTPServer(app) 
     server.listen(options.port) 
