@@ -105,12 +105,13 @@ div.footer{
 }
 .quotes span{
 	float: left;
-	width: 6.4%; 
+	width: 6.2%; 
 	text-align: right;
+	border: 1px solid transparent;
 }
 
 .header span{
-	color: white; 
+	color: white;  
 }
 .header span.code{
 	text-align: left;
@@ -140,13 +141,72 @@ div.footer{
 
 .data span.name{
 	text-align: left; 
-	color: #CC8;
+	color: #CC8; 
 }
 .data span.code{ 
 	text-align: left; 
 	color: #CC8;
 	font-weight: bold;
 }
+
+.data span.update{
+	border: 1px solid #C00;
+	background-color: #333;
+}
+
+
+.keyshot{
+	position: fixed;
+	bottom: 44px; 
+	right: 10px; 
+	
+	width: 180px;
+	background-color: #333;
+	border: 2px solid #222;
+	border-radius: 2px;
+	font-size: 14px;
+	
+}
+.keyshot input{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%; 
+	height: 26px;
+	border: none;
+	border-radius: 0;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	
+	background-color: #444;
+	color: white; 
+	text-transform: uppercase;
+}
+.keyshot input:focus{
+	border-color: rgba(82, 168, 236, 0.8);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none; 
+}
+.keyshot ul{
+	padding: 2px 6px;
+}
+.keyshot ul > li{
+	color: #CCC;
+}
+.keyshot ul > li span.code{
+	font-weight: bold;
+	margin-right: 8px;
+}
+
+.caption{
+	font-size: 16px;
+	margin-left: 30px;
+	margin-top: 4px;
+	color: #CCC;
+}
+
 
 ::-webkit-scrollbar {
 	width: 8px;

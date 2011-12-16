@@ -4,10 +4,15 @@
 {% end %} 
 {% block js_css %}
 <link type="text/css" rel="stylesheet" href="{{static_url('css/quote/quote.css')}}"/>
-<script src="{{static_url('js/quote/quote.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/d3/d3.min.js')}}"></script>
+<script src="{{static_url('js/websock.js')}}"></script>
+<script src="{{static_url('js/quote/quote.js')}}"></script> 
 {% end %} 
 {% block content %}
-<div class="quotes">
+<div id="stockQuote" class="hide">
+<div class="caption"><span>新都酒店</span> <span>分时</span> <span>均线</span> <span>成交量</span> </div>
+</div>
+<div id="quotes" class="quotes">
 <div class="clearfix header">
   	<span class="idx">序号</span>
     <span class="code">代码</span>
@@ -31,13 +36,13 @@
 {% for q in quotes %}
 	{% set i += 1 %} 
 	{% set closed = q['closed'] %} 
-  	<li id="{{i}}" class="clearfix" onmousedown="q_line_clicked(this);">
+  	<li id="{{q['code']}}" class="clearfix" onmousedown="q_line_clicked(this);" ondblclick="showStockQuote()">
   		 <span class="idx">{{i}}</span>
 	     <span class="code">{{q['code']}}</span>
 	     <span class="name">{{q['name']}}</span>
 	     {% set value = uniform(-0.1,0.1)*100 %}
 	     <span class="{{q_class(value)}}">{{'%.2f'%value}}</span> <!-- 涨跌幅 -->
-	     <span class="{{q_class(value)}}">{{q['price']}}</span>
+	     <span class="price {{q_class(value)}}">{{q['price']}}</span>
 	     <span class="{{q_class(value)}}">{{'%.2f'%(value*float(q['open'])/100)}}</span><!-- 涨跌额 -->
 	     <span>{{q_money(q['turnover'])}}</span>
 	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
@@ -54,6 +59,18 @@
 </ul>
 </div>
 
+
+<div id="keyshot" class="keyshot hide">
+	<input type="text" placeholder="键盘精灵-代码/简称">
+	<ul>
+	{% for i in range(10) %}
+	<li>
+	<span class="code">000031</span>
+	<span class="name">中粮地产</span>
+	</li>
+	{% end %}
+	</ul>
+</div>
 <div class="footer"> 
 <ul class="cats clearfix">
 {%for i in range(len(categories)) %}

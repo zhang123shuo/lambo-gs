@@ -31,7 +31,9 @@ def build_handlers():
     
     return all_handlers
      
-def main():
+def main(): 
+    import socket
+    ip = [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][0]
     tornado.options.parse_command_line()
     settings = dict( 
         debug = True, 
@@ -39,7 +41,7 @@ def main():
         template_path = os.path.join(os.path.dirname(__file__),'template'),
         cookie_secret = "11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
         autoescape = None, 
-        websocket_host = 'ws://localhost:8080/im',
+        websocket_host = 'ws://%s:8080/im'%'localhost',
     ) 
     handlers = build_handlers()
     
@@ -51,6 +53,8 @@ def main():
     app.cached_users = {} 
     import apps.quote
     apps.quote.load_quotes(app.db)
+    import threading
+    threading.Thread(target=apps.quote.push_quote).start()
     
     server = tornado.httpserver.HTTPServer(app) 
     server.listen(options.port) 
