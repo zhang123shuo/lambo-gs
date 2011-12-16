@@ -11,13 +11,13 @@
 
 <script>
 $(function(){
-	$.get('./json',function(data){
+	quote.db.open("quotes","0");
+	$.get('./json',{'count': 1},function(data){
 		var quotes = data.quotes;
 		for(var q in quotes){
 			console.log(quotes[q].price);
 		}
-	});
-	
+	}); 
 });
 
 </script>
