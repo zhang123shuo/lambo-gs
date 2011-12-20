@@ -64,7 +64,7 @@ def main():
     app.db = conn['promise']
     app.cached_users = {} 
     import apps.quote
-    apps.quote.load_quotes(app.db)
+    apps.quote.start_sina_quote()
     import threading
     threading.Thread(target=apps.quote.push_quote).start()
     

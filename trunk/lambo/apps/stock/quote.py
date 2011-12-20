@@ -5,8 +5,12 @@ import urllib2
 from datetime import datetime
 import pymongo
 from pymongo import Connection
+from tornado import database 
+
 conn = Connection('localhost:27017,localhost:27018,localhost:27019') 
 db = conn['promise']
+
+
 
 _quotes = {}
 _stock_groups = [] 
@@ -26,37 +30,26 @@ def group_stocks():
             stocks = []
     if len(stocks)>0: _stock_groups.append(','.join(stocks)) 
     
-def persist_quote(quote):
-    db.quotes.update({'code':quote['code']},quote,True)
+def persist_quote(quote,mysql):
+    sql = '''
+        insert into hq_quotes(code,name,open,closed,price,highest,lowest,ask,bid,volume,turnover,
+        buy1_cnt,buy1_price,buy2_cnt,buy2_price,buy3_cnt,buy3_price,buy4_cnt,buy4_price,buy5_cnt,buy5_price,
+        sell1_cnt,sell1_price,sell2_cnt,sell2_price,sell3_cnt,sell3_price,sell4_cnt,sell4_price,sell5_cnt,sell5_price,
+        date,time)
+        values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+               %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+               %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+               %s,%s,%s)
+    ''' 
+    mysql.execute(sql,*quote)
+    
        
-def parse_quote(code,qstr):
-    q = qstr.split(',')
-    if(code in _quotes): quote = _quotes[code]
-    else: _quotes[code] = quote = {}  
-    quote['code'] = code
-    quote['name'] = q[0]
-    quote['open'] = float(q[1])
-    quote['closed'] = float(q[2])
-    quote['price'] = float(q[3])
-    quote['highest'] = float(q[4])
-    quote['lowest'] = float(q[5])
-    quote['volume'] = int(q[8])
-    quote['turnover'] = float(q[9])
-    quote['buy1'] = (int(q[10]),float(q[11]))
-    quote['buy2'] = (int(q[12]),float(q[13]))
-    quote['buy3'] = (int(q[14]),float(q[15]))
-    quote['buy4'] = (int(q[16]),float(q[17]))
-    quote['buy5'] = (int(q[18]),float(q[19])) 
-    quote['sell1'] = (int(q[20]),float(q[21]))
-    quote['sell2'] = (int(q[22]),float(q[23]))
-    quote['sell3'] = (int(q[24]),float(q[25]))
-    quote['sell4'] = (int(q[26]),float(q[27]))
-    quote['sell5'] = (int(q[28]),float(q[29]))
-    print quote['code'], quote['name'], quote['price']
-    persist_quote(quote)
-    return quote 
-
-def query_quote(codes):    
+def parse_quote(code,qstr,mysql):
+    q = qstr.split(',') 
+    q.insert(0, code)
+    persist_quote(q,mysql)
+    
+def query_quote(codes,mysql):    
     start = time.time()
     url = urllib2.urlopen('http://hq.sinajs.cn/list=%s'%codes)
     query = url.read().decode('gbk') 
@@ -68,7 +61,7 @@ def query_quote(codes):
         code = q[0][-6:]
         qstr = q[1][1:-2]
         if qstr=='': continue
-        parse_quote(code,qstr) 
+        parse_quote(code,qstr,mysql) 
  
 def is_market_time(): 
     return True
@@ -82,9 +75,10 @@ def is_market_time():
     return False
 
 def quote_routine(codes,freq=10): 
+    mysql = database.Connection(host='localhost',database='promise',user='root',password='123456')
     while True:
         if is_market_time():
-            query_quote(codes) 
+            query_quote(codes,mysql) 
         time.sleep(freq)
  
 

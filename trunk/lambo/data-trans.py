@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from tornado import database 
+import time
 import pymongo
 from pymongo import Connection
 from random import randrange
@@ -9,8 +10,8 @@ mysql = database.Connection(host='localhost',database='promise',user='root',pass
 
 def publish(db,e):
     e['uid'] = '%s'%(randrange(3)+1)
-    params = [e['uid'],e['category'],e['title'],e['content']] 
-    sql = "INSERT INTO entries(uid,cid,title,content) VALUES(%s,%s,%s,%s);"
+    params = [e['uid'],e['category'],e['title'],e['content'],e['created_at']] 
+    sql = "INSERT INTO entries(uid,cid,title,content,created) VALUES(%s,%s,%s,%s,%s);"
     sql += "SET @last = LAST_INSERT_ID();" 
     for tag in e['tags']: params.append(tag)
     for tag in e['tags']:
