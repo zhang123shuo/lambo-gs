@@ -1,5 +1,4 @@
-{% from random import randrange %}
-{% from pymongo.objectid import ObjectId %}
+{% from random import randrange %} 
 {% from apps.common import time_fmt %}
 
 {% for thread in threads %} 
@@ -11,13 +10,13 @@
 			</div>
 			<div class="summary">
 				<span><a href="#" onclick="show_body('{{thread.id}}'); return false;" class="title">{{thread.title}}</a></span> 
-				<span class="comment">最近回复  by 洪磊明</span>
+				<span class="comment">最近回复 {{time_fmt(thread.created)}}  by 洪磊明</span>
 			</div>
 			<div class="stat">
 				{% set reply = randrange(100) %} 
 				{% set view = randrange(1000)+1000 %} 
 				<span><span class="num">{{reply}}</span>回/<span class="num">{{view}}</span>阅</span>
-				<span class="created"></span>
+				<span class="created">{{time_fmt(thread.created)}}</span>
 			</div>
 		</div>
 		<div class="slide hide" ondblclick="hide_body('{{thread.id}}');"></div>
