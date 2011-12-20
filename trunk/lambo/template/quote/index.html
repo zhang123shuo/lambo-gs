@@ -47,8 +47,8 @@
 	     <span>{{q_money(q['turnover'])}}</span>
 	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
 	     <span>{{'%.1f'%(uniform(20,200))}}</span>
-	     <span class="{{q_class2(q['buy1'][1],closed)}}">{{q['buy1'][1]}}</span>
-	     <span class="{{q_class2(q['sell1'][1],closed)}}">{{q['sell1'][1]}}</span>
+	     <span class="buy1 {{q_class2(q['buy1'][1],closed)}}">{{q['buy1'][1]}}</span>
+	     <span class="sell1 {{q_class2(q['sell1'][1],closed)}}">{{q['sell1'][1]}}</span>
 	     <span class="{{q_class2(q['open'],closed)}}">{{q['open']}}</span>
 	     <span>{{closed}}</span>
 	     <span class="{{q_class2(q['highest'],closed)}}">{{q['highest']}}</span>

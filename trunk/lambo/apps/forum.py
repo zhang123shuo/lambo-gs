@@ -29,33 +29,27 @@ class ForumBaseHandler(BaseHandler):
 class ForumHandler(ForumBaseHandler):  
     #@tornado.web.authenticated
     def get(self):  
-        start = self.get_argument('idx',0)  #start of forum threads to pull/for paging
-        count = self.get_argument('cnt',20) #count of forum threads to pull/for paging
-        threads = [] 
-        filter = {}
-        for thread in self.db.threads.find(filter,{'content':0}).sort('created_at',-1).skip(start).limit(count):
-            threads.append(thread)
-         
+        start = int(self.get_argument('idx',0))  #start of forum threads to pull/for paging
+        count = int(self.get_argument('cnt',20)) #count of forum threads to pull/for paging
+        threads = self.mysql.query('select id,uid,cid,title,created from entries limit %s,%s',start,count)       
         self.render('forum/forum.html',cats=categories,threads=threads, hot_tags=hot_tags)
 
 class ForumFilterHandler(ForumBaseHandler):  
     def get(self):
-        cid = self.get_argument('cid','-1') #category id, -1 means all
-        sort = self.get_argument('sort',None) #category id
-        start = self.get_argument('idx',0)  #start of forum threads to pull/for paging
-        count = self.get_argument('cnt',20) #count of forum threads to pull/for paging
-        
-        threads,filter = [],{}
-        if cid != '-1':
-            filter['category'] = cid
-            
-        for thread in self.db.threads.find(filter,{'content':0}).sort('created_at',-1).skip(start).limit(count):
-            threads.append(thread)
+        cid = int(self.get_argument('cid',-1)) #category id, -1 means all 
+        start = int(self.get_argument('idx',0))  #start of forum threads to pull/for paging
+        count = int(self.get_argument('cnt',20)) #count of forum threads to pull/for paging
+       
+        sql = 'select id,uid,cid,title,created from entries'
+        if cid != -1:
+            sql += ' where cid=%s'%cid
+        sql += ' limit %s,%s'
+        threads = self.mysql.query(sql,start,count)
         self.render('forum/thread-list.html',threads=threads)
 
 class ThreadHandler(ForumBaseHandler):  
     def get(self,tid): 
-        thread = self.db.threads.find_one({'_id': _id(tid)}) 
+        thread = self.mysql.get('select * from entries where id=%s',tid)
         self.render('forum/thread.html',thread=thread)
         
 handlers = [ 

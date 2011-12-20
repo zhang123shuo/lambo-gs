@@ -66,6 +66,10 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.application.db 
     
     @property  
+    def mysql(self):  #get application mongodb instance
+        return self.application.mysql 
+    
+    @property  
     def settings(self):  #get application mongodb instance
         return self.application.settings 
     
@@ -93,19 +97,19 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.application.cached_users
     
     def cache_user(self,user): #to cache use 
-        uid = str(user['_id'])
+        uid = str(user['id'])
         self.cached_users[uid] = user
     
     def user(self,uid): #load user from cache
         uid = str(uid)
-        if uid in self.cached_users: return self.cached_users[uid]
-        u = self.db.users.find_one({'_id':_id(uid)})
+        if uid in self.cached_users: return self.cached_users[uid] 
+        u = self.mysql.get("select * from users where id=%s"%uid)
         if u is None: return None
         self.cache_user(u)
         return u
     
-    def load_user(self,email): #load user via email
-        u = self.db.users.find_one({'email': email})
+    def load_user(self,email): #load user via email 
+        u = self.mysql.get("select * from users where email='%s'"%email)
         if u is not None:   
             self.cache_user(u)
         return u
@@ -119,13 +123,13 @@ class LoginHandler(BaseHandler):
         email = self.get_argument('email')  
         password = self.get_argument('password')
         res = {'status': '0'}
-        user = self.load_user(email)
+        user = self.load_user(email) 
         if user is None:
             res['status'] = '-1'
-        elif user['password'] == password:  
+        elif user['pwd'] == password:  
             self.set_secure_cookie('email',email) 
             self.set_secure_cookie('name',user['name']) 
-            self.set_secure_cookie('uid',str(user['_id']))    
+            self.set_secure_cookie('uid',str(user['id']))    
             res['data'] = u'''
                 <ul class="nav secondary-nav">
                     <li class="dropdown">
@@ -136,7 +140,7 @@ class LoginHandler(BaseHandler):
                       </ul>
                     </li>
                 </ul>'''%user['name']
-            res['user'] = {'uid':str(user['_id']), 'name': user['name'], 'email': email }
+            res['user'] = {'uid':str(user['id']), 'name': user['name'], 'email': email }
         else:
             res['status'] = '-2' 
         

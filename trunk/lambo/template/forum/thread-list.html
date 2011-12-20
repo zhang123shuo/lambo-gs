@@ -4,23 +4,23 @@
 
 {% for thread in threads %} 
 	{% set num = randrange(10) %}
-	<li id="{{thread['_id']}}" class="thread">
-		<div class="snapshot clearfix" ondblclick="show_body('{{thread['_id']}}'); return false;" >
+	<li id="thread-{{thread.id}}" class="thread">
+		<div class="snapshot clearfix" ondblclick="show_body('{{thread.id}}'); return false;" >
 			<div class="author">
 				<a href="#"><img src="{{static_url('img/avatar/%s.jpg'%num)}}"></a>
 			</div>
 			<div class="summary">
-				<span><a href="#" onclick="show_body('{{thread['_id']}}'); return false;" class="title">{{thread['title']}}</a></span> 
-				<span class="comment">最近回复 {{time_fmt(thread['created_at'])}} by 洪磊明</span>
+				<span><a href="#" onclick="show_body('{{thread.id}}'); return false;" class="title">{{thread.title}}</a></span> 
+				<span class="comment">最近回复  by 洪磊明</span>
 			</div>
 			<div class="stat">
 				{% set reply = randrange(100) %} 
 				{% set view = randrange(1000)+1000 %} 
 				<span><span class="num">{{reply}}</span>回/<span class="num">{{view}}</span>阅</span>
-				<span class="created">{{time_fmt(thread['created_at'])}}</span>
+				<span class="created"></span>
 			</div>
 		</div>
-		<div class="slide hide" ondblclick="hide_body('{{thread['_id']}}');"></div>
+		<div class="slide hide" ondblclick="hide_body('{{thread.id}}');"></div>
 	</li> 
 {% end %}
 

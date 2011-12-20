@@ -3,7 +3,8 @@ function publish() {
 	var value = $('#msg-box').val(); 
 	if($.trim(value)=='') return;
 	eventSocket.emit('publish', {
-		'user': g_logged_user.name,
+		'uid': g_logged_user.uid, 
+		'uname': g_logged_user.name, 
 		'body': value,
 		'time': new Date().getTime()
 	});
@@ -23,7 +24,7 @@ function enableQuickSend() {
 }
 function append_msg(data){
 	var time = new Date(data.time).format("H:i:s"); 
-	var title = '<a href="#">'+data.user+'</a> <span>['+time+']</span>';
+	var title = '<a href="#">'+data.uname+'</a> <span>['+time+']</span>';
 	var msg = "<li>" + title + "<p>" + data.body + "</p></li>";
 	$("#msgs").append(msg);
 }
@@ -38,15 +39,15 @@ function set_online_count(){
 	$("#online-count").html($("#mem-list").children().length);
 }
 function user_online(u){
-	if($("#"+u.uid).length>0) return;
-	var user_item = '<li ' + 'id="' + u.uid + '"class="clearfix">' +
+	if($("#user-"+u.uid).length>0) return;
+	var user_item = '<li ' + 'id="user-' + u.uid + '"class="clearfix">' +
 		'<a href="#" class="pull-left"><img src="/static/img/avatar/'+rand()+'.jpg"></a>'+
 		'<a href="#" class="pull-left">' + u.name + '</a></li>';
 	$("#mem-list").append(user_item);
 	set_online_count();
 }
 function user_offline(u){
-	$("#"+u.uid).remove();
+	$("#user-"+u.uid).remove();
 	set_online_count();
 }
 function presence_changed(data){
@@ -55,8 +56,7 @@ function presence_changed(data){
 		user_offline(u);
 	}else if(data.status=='online'){ 
 		user_online(u);
-	}
-	
+	} 
 }
 function init_ws(host) {
 	if ("WebSocket" in window || 'MozWebSocket' in window ) {
@@ -77,7 +77,7 @@ function init_ws(host) {
 			}
 			scroll_board();
 		});
-		eventSocket.on("presence", function(data) {  
+		eventSocket.on("presence", function(data) { 
 			presence_changed(data);
 		});
 	} else {

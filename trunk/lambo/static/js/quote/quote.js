@@ -60,16 +60,18 @@ function showMain(){
 }
 function update_column(id,name,value){
 	var $item = $("#" + id + " ."+name);
-	$item.text(value).css("background-color", "#222");
+	$item.text(value).css("border", "1px solid #C00");
 	setTimeout(function(){
-		$item.css("background-color", "#080808");
-	},500); 
+		$item.css("border", "1px solid transparent");
+	}, 800); 
 } 
 function init_ws(host) {
 	if ("WebSocket" in window || 'MozWebSocket' in window ) {
 		eventSocket = new EventSocket(host); 
 		eventSocket.on("quote", function(data) {  
 			update_column(data.code,"price",data.price);
+			update_column(data.code,"sell1",data.sell1[1]);
+			update_column(data.code,"buy1",data.buy1[1]);
 		}); 
 	} else {
 		alert("WebSocket not supported");

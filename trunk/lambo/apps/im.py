@@ -20,13 +20,16 @@ class WebIMHandler(WebSocketEventHandler):
     
     def persist(self,msg):
         logging.warn('persisting %s'%repr(msg))
-        self.db.msgs.save(msg)
+        self.mysql.execute('insert into im_msgs(uid,body) values(?,?)',int(msg['uid']),msg['body'])
     
     def timeline(self,start=0,count=20):
         logging.warn('timeline from %s'%start) 
-        cursor = self.db.msgs.find({},{'_id':0}).sort('time',-1).limit(count)
-        msgs = [m for m in cursor]
-        msgs.reverse()
+        return []
+        sql = '''
+            select name body time from im_msgs m and users u where m.uid=u.id 
+            limit %s,%s
+        '''
+        msgs = self.mysql.query(sql,start,count) 
         return msgs
     
     def broadcast(self,msg):
@@ -36,13 +39,14 @@ class WebIMHandler(WebSocketEventHandler):
     @property
     def logged_user(self):
         return {
-            'uid': self.get_secure_cookie('uid'),
+            'uid': int(self.get_secure_cookie('uid')),
             'name': self.get_secure_cookie('name')
-        } 
+        }  
     
     @property
-    def db(self):
-        return self.application.db
+    def mysql(self):
+        return self.application.mysql
+    
     
     def enlist(self):
         user = self.logged_user  
@@ -72,9 +76,9 @@ class WebIMHandler(WebSocketEventHandler):
         self.broadcast(msg)
     
     @event('publish')
-    def on_publish(self, data): 
+    def on_publish(self, data):  
         msg = self.pack_event('publish', data)
-        self.persist(data)
+        #self.persist(data)
         self.broadcast(msg)
         
             
