@@ -38,20 +38,20 @@ function categoryClicked(target){
 	});
 }
 function show_body(tid){ 
-	if($("#"+tid+" .slide").children().length>0){
-		$("#"+tid+" .snapshot").hide();
-		$("#"+tid+" .slide").show();
+	if($("#thread-"+tid+" .slide").children().length>0){
+		$("#thread-"+tid+" .snapshot").hide();
+		$("#thread-"+tid+" .slide").show();
 		return;
 	}
 	$.get('./thread/'+tid,function(data){
-		$("#"+tid+" .snapshot").hide();
-		$("#"+tid+" .slide").html(data).show();
+		$("#thread-"+tid+" .snapshot").hide();
+		$("#thread-"+tid+" .slide").html(data).show();
 	});
 }
 
 function hide_body(tid){ 
-	$("#"+tid+" .snapshot").show();
-	$("#"+tid+" .slide").hide();
+	$("#thread-"+tid+" .snapshot").show();
+	$("#thread-"+tid+" .slide").hide();
 }
  
 $(function(){       

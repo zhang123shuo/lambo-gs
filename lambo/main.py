@@ -3,12 +3,18 @@ import tornado.web
 import tornado.ioloop
 import tornado.httpserver 
 import tornado.autoreload 
+import tornado.database
 from tornado.options import define, options
 
 import os.path  
 define('port', default=8080,type=int)   
-define('mongodb_host', default='localhost:27017,localhost:27018,localhost:27019')
-   
+define('mongodb_host', default='localhost:27017,localhost:27018,localhost:27019')  
+
+define("mysql_host", default="127.0.0.1:3306")
+define("mysql_database", default="promise")
+define("mysql_user", default="root")
+define("mysql_password", default="123456")   
+
 def prefixing_handlers(handlers, prefix, module_handlers): 
     for i in range(len(module_handlers)):
         module_handlers[i] = (prefix + module_handlers[i][0], module_handlers[i][1])
@@ -46,6 +52,12 @@ def main():
     handlers = build_handlers()
     
     app = tornado.web.Application(handlers,**settings) 
+    
+    app.mysql = tornado.database.Connection(
+            host=options.mysql_host, database=options.mysql_database,
+            user=options.mysql_user, password=options.mysql_password)
+    
+    
     import pymongo
     from pymongo import Connection
     conn = Connection(options.mongodb_host) 

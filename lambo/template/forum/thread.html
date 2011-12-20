@@ -3,13 +3,13 @@
 {% from apps.common import time_fmt %}
 <div class="wrapper">
 <div class="head">
-	<a href="#" onclick="hide_body('{{thread['_id']}}'); return false;">{{thread['title']}}</a>
-	<span title="收起全文" class="close" onclick="hide_body('{{thread['_id']}}'); return false;">×</span>
+	<a href="#" onclick="hide_body('{{thread.id}}'); return false;">{{thread.title}}</a>
+	<span title="收起全文" class="close" onclick="hide_body('{{thread.id}}'); return false;">×</span>
 	
 	
 </div>
 <div class="body">
-{{thread['content']}}
+{{thread.content}}
 </div>
 </div>
 <div class="attach">

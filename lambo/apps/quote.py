@@ -20,12 +20,22 @@ def broadcast(msg):
 
 def push_quote():
     quotes = cached_quotes[0:60]
+    def mock(q,name):
+        p = float(q[name])+uniform(-2,2)
+        if p < 0: p = 0
+        q[name] = '%.2f'%p
+    def mock2(q,name):
+        p = float(q[name][1])+uniform(-2,2)
+        if p < 0: p = 0
+        q[name][1] = '%.2f'%p
+        
     while True:
         n = len(quotes)
         q = quotes[rand(n)]
-        p = float(q['price'])+uniform(-2,2)
-        if p < 0: p = 0
-        q['price'] = '%.2f'%p
+        mock(q,'price')
+        mock2(q,'buy1')
+        mock2(q,'sell1')
+        
         msg = {'event':'quote','data': q}
         broadcast(json.dumps(msg))
         time.sleep(.5)
