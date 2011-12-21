@@ -31,25 +31,28 @@ class ForumHandler(ForumBaseHandler):
     def get(self):  
         start = int(self.get_argument('idx',0))  #start of forum threads to pull/for paging
         count = int(self.get_argument('cnt',20)) #count of forum threads to pull/for paging
-        threads = self.mysql.query('select id,uid,cid,title,created from entries limit %s,%s',start,count)       
+        sql = '''
+        select e.id, uid, u.name as username,cid,title,created from entries e, users u where e.uid=u.id limit %s,%s
+        '''
+        threads = self.db.query(sql,start,count)       
         self.render('forum/forum.html',cats=categories,threads=threads, hot_tags=hot_tags)
 
 class ForumFilterHandler(ForumBaseHandler):  
     def get(self):
         cid = int(self.get_argument('cid',-1)) #category id, -1 means all 
-        start = int(self.get_argument('idx',0))  #start of forum threads to pull/for paging
-        count = int(self.get_argument('cnt',20)) #count of forum threads to pull/for paging
-       
-        sql = 'select id,uid,cid,title,created from entries'
-        if cid != -1:
-            sql += ' where cid=%s'%cid
+        start = int(self.get_argument('idx',0))
+        count = int(self.get_argument('cnt',20))
+        sql = '''
+        select e.id, uid, u.name as username,cid,title,created from entries e, users u where e.uid=u.id
+        ''' 
+        if cid != -1:  sql += ' and cid=%s'%cid
         sql += ' limit %s,%s'
-        threads = self.mysql.query(sql,start,count)
+        threads = self.db.query(sql,start,count)
         self.render('forum/thread-list.html',threads=threads)
 
 class ThreadHandler(ForumBaseHandler):  
     def get(self,tid): 
-        thread = self.mysql.get('select * from entries where id=%s',tid)
+        thread = self.db.get('select * from entries where id=%s',tid)
         self.render('forum/thread.html',thread=thread)
         
 handlers = [ 
