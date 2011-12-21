@@ -1,51 +1,25 @@
-html { 
-	overflow: auto;
-	background-color: #080808;  
-
-}
-body {
-	background-color: #080808; 
-    position: absolute;
-    top: 40px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    padding: 0px;  
-    overflow-y: scroll;
+html,body { 
+	overflow-y: hidden;
 	overflow-x: hidden;
+	
+	font-size: 16px; 
+	background-color: #080808; 
 }
+
 .container {
     width: 96%;
-
 }
-.container > .content {
-    background-color: #080808; 
-    font-size: 10px;
-    padding: 0;
+.container > .content{ 
+	margin-top: 40px;
+	
+	/* negative indent the amount of the padding to maintain the grid system */
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
 }
-line.normal {
-	stroke: red;
-	shape-rendering: crispEdges;
-}
-line.bold {
-	stroke: red;
-	stroke-width: 2px;
-	shape-rendering: crispEdges;
-}
-line.dash {
-	stroke: red;
-	shape-rendering: crispEdges;
-	stroke-dasharray: 2;
-}
-text {
-	fill: yellow;
-}
-.line {
-	fill: none;
-	stroke: white;
-	stroke-width: 1px;
-}
-
 
 
 div.footer{
@@ -100,16 +74,25 @@ div.footer{
 	color: #BBB; 
 } 
 .quotes .header{
+
 	padding: 4px 2px 2px 2px;
-	border-bottom: 1px solid #C00;
+	border-bottom: 1px solid #C00; 
 }
 .quotes span{
 	float: left;
-	width: 6.2%; 
+	width: 5.8%; 
+	margin: 0 0.2%;
 	text-align: right;
 	border: 1px solid transparent;
 }
 
+.quotes  .header{
+	position: fixed;
+	top: 40px;
+	left: 2%;
+	right: 2%;
+	background-color: #080808;
+}
 .header span{
 	color: white;  
 }
@@ -122,6 +105,12 @@ div.footer{
 .quotes span.idx{
 	text-align: center;
 	width: 4%;
+}
+.quotes .data{
+	margin-top: 70px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	max-height: 1000px;
 }
 .data li{
 	padding: 2px;
@@ -206,6 +195,33 @@ div.footer{
 	margin-top: 4px;
 	color: #CCC;
 }
+
+
+
+line.normal {
+	stroke: red;
+	shape-rendering: crispEdges;
+}
+line.bold {
+	stroke: red;
+	stroke-width: 2px;
+	shape-rendering: crispEdges;
+}
+line.dash {
+	stroke: red;
+	shape-rendering: crispEdges;
+	stroke-dasharray: 2;
+}
+text {
+	fill: yellow;
+}
+.line {
+	fill: none;
+	stroke: white;
+	stroke-width: 1px;
+}
+
+
 
 
 ::-webkit-scrollbar {
