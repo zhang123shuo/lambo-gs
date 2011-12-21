@@ -15,18 +15,37 @@ from common import BaseHandler
 from websock import WebSocketEventHandler,event
  
 categories = [ u'上证A股', u'中小企业', u'沪深A股', u'权证', u'债券', u'开放式基金', u'封闭式基金',u'三板' ]
-global cached_quotes 
+
 cached_quotes = {}
 cached_sockets = [] 
-
+sorted_quotes = []
  
 def start_sina_quote():
-    
     def parse_quote(code,qstr):
         global cached_quotes 
-        q = qstr.split(',') 
-        cached_quotes[code] = q
-    
+        q = qstr.split(',')
+        if(code in cached_quotes): quote = cached_quotes[code]
+        else: cached_quotes[code] = quote = {}  
+        quote['code'] = code
+        quote['name'] = q[0]
+        quote['open'] = float(q[1])
+        quote['closed'] = float(q[2])
+        quote['price'] = float(q[3])
+        quote['highest'] = float(q[4])
+        quote['lowest'] = float(q[5])
+        quote['volume'] = int(q[8])
+        quote['turnover'] = float(q[9])
+        quote['buy1'] = [int(q[10]),float(q[11])]
+        quote['buy2'] = [int(q[12]),float(q[13])]
+        quote['buy3'] = [int(q[14]),float(q[15])]
+        quote['buy4'] = [int(q[16]),float(q[17])]
+        quote['buy5'] = [int(q[18]),float(q[19])] 
+        quote['sell1'] = [int(q[20]),float(q[21])]
+        quote['sell2'] = [int(q[22]),float(q[23])]
+        quote['sell3'] = [int(q[24]),float(q[25])]
+        quote['sell4'] = [int(q[26]),float(q[27])]
+        quote['sell5'] = [int(q[28]),float(q[29])]
+        #print quote['code'], quote['name'], quote['price'] 
     def query_quote(codes):    
         start = time.time()
         url = urllib2.urlopen('http://hq.sinajs.cn/list=%s'%codes)
@@ -73,33 +92,23 @@ def start_sina_quote():
             if is_market_time():
                 query_quote(codes) 
             time.sleep(freq) 
-    for codes in stock_groups:  
+    for codes in stock_groups:   
         threading.Thread(target=quote_routine,args=(codes,10)).start()
     
 
 
 
-def push_quote():
-    
-    def mock(q,name):
-        p = float(q[name])+uniform(-2,2)
-        if p < 0: p = 0
-        q[name] = '%.2f'%p
-    def mock2(q,name):
-        p = float(q[name][1])+uniform(-2,2)
-        if p < 0: p = 0
-        q[name][1] = '%.2f'%p
-        
+def push_quote():  
     while True:
-        quotes = []
+        global sorted_quotes
+        if len(sorted_quotes)==0:
+            sorted_quotes =[v for k,v in sorted(cached_quotes.iteritems())]
+        quotes = sorted_quotes[0:60]
         n = len(quotes)
         if n<=0:
             time.sleep(1)
             continue
-        q = quotes[rand(n)]
-        mock(q,'price')
-        mock2(q,'buy1')
-        mock2(q,'sell1')
+        q = quotes[rand(n)] 
         
         msg = {'event':'quote','data': q}
         broadcast(json.dumps(msg))
@@ -108,19 +117,19 @@ def push_quote():
 def broadcast(msg):
     for sock in cached_sockets:
         sock.write_message(msg)  
-                
-def load_quotes(db):
-    cursor = db.quotes.find({},{'_id':0}).sort('code',1)
-    global cached_quotes 
-    cached_quotes = [q for q in cursor]
+                 
 
 class QuoteHandler(BaseHandler):   
     def get(self):   
         self.render('quote/quote.html')
 
-class HomeHandler(BaseHandler):  
+class HomeHandler(BaseHandler): 
     def get(self):   
-        quotes = []
+        global sorted_quotes
+        if len(sorted_quotes)==0:
+            sorted_quotes =[v for k,v in sorted(cached_quotes.iteritems())]
+        quotes = sorted_quotes[0:60]
+        
         self.render('quote/index.html',quotes=quotes,categories = categories, sel=0)
         
 class JSONQuoteHandler(BaseHandler):  

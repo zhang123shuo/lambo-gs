@@ -7,8 +7,7 @@ import tornado.database
 from tornado.options import define, options
 
 import os.path  
-define('port', default=8080,type=int)   
-define('mongodb_host', default='localhost:27017,localhost:27018,localhost:27019')  
+define('port', default=8080,type=int)    
 
 define("mysql_host", default="127.0.0.1:3306")
 define("mysql_database", default="promise")
@@ -48,20 +47,14 @@ def main():
         cookie_secret = "11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
         autoescape = None, 
         websocket_host = 'ws://%s:8080/im'%'localhost',
-    ) 
+    )   
     handlers = build_handlers()
-    
     app = tornado.web.Application(handlers,**settings) 
     
-    app.mysql = tornado.database.Connection(
+    app.db = tornado.database.Connection(
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password)
-    
-    
-    import pymongo
-    from pymongo import Connection
-    conn = Connection(options.mongodb_host) 
-    app.db = conn['promise']
+     
     app.cached_users = {} 
     import apps.quote
     apps.quote.start_sina_quote()

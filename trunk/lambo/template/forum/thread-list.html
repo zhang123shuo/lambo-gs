@@ -10,7 +10,7 @@
 			</div>
 			<div class="summary">
 				<span><a href="#" onclick="show_body('{{thread.id}}'); return false;" class="title">{{thread.title}}</a></span> 
-				<span class="comment">最近回复 {{time_fmt(thread.created)}}  by 洪磊明</span>
+				<span class="comment">最近回复 {{time_fmt(thread.created)}}  by {{thread.username}}</span>
 			</div>
 			<div class="stat">
 				{% set reply = randrange(100) %} 

@@ -20,13 +20,13 @@ class WebIMHandler(WebSocketEventHandler):
     
     def persist(self,msg):
         logging.warn('persisting %s'%repr(msg))
-        self.mysql.execute('insert into im_msgs(uid,uname,body,time) values(%s,%s,%s,%s)',
+        self.db.execute('insert into im_msgs(uid,uname,body,time) values(%s,%s,%s,%s)',
                            int(msg['uid']),msg['uname'],msg['body'],msg['time'])
     
     def timeline(self,start=0,count=20):
         logging.warn('timeline from %s'%start)  
         sql = '''select uid,uname,body,time from im_msgs limit %s,%s'''
-        msgs = self.mysql.query(sql,start,count) 
+        msgs = self.db.query(sql,start,count) 
         return msgs
     
     def broadcast(self,msg):
@@ -41,8 +41,8 @@ class WebIMHandler(WebSocketEventHandler):
         }  
     
     @property
-    def mysql(self):
-        return self.application.mysql
+    def db(self):
+        return self.application.db
     
     
     def enlist(self):
