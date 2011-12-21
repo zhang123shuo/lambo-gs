@@ -13,25 +13,85 @@ import datetime
 one_day = datetime.timedelta(days=1)
 one_hour = datetime.timedelta(hours=1)
 
-def q_class(value):
-    value = float(value)
-    if value<0: 
-        return 'neg'
-    if abs(value)<1e-2:
-        return 'eq'
-    return 'pos'
-def q_class2(value1,value2):
-    value1 = float(value1)
-    value2 = float(value2)
-    return q_class(value1-value2)
+class QuotePrint:  
+    @classmethod
+    def css(cls,value1,value2):
+        value = float(value1)-float(value2)
+        if abs(value)<1e-3:
+            return 'eq'
+        elif value<0: 
+            return 'neg'
+        else: return 'pos'
 
-def q_money(value):
-    value = float(value)
-    if value/100000000 >= 1:
-        return u'%.1f亿'%(value/100000000)
+    @classmethod
+    def suspended(cls,q):
+        return abs(q.price)<1e-3 or abs(q.closed)<1e-3
     
-    return u'%.0f万'%(value/10000)
+    #涨跌幅 %
+    @classmethod
+    def price_delta100(cls,q):
+        if cls.suspended(q): return '--'
+        return '%.2f'%((q.price-q.closed)*100/q.closed)
+    
+    #价格 %
+    @classmethod
+    def price(cls,q):
+        if cls.suspended(q): return '--'
+        return '%.2f'%q.price
+    
+    #涨跌
+    @classmethod
+    def price_delta(cls,q):
+        if cls.suspended(q): return '--'
+        return '%.2f'%(q.price-q.closed)
+    
+    #成交额
+    @classmethod
+    def turnover(cls,q):
+        if cls.suspended(q): return '--'
+        if q.turnover/100000000 >= 1:
+            return u'%.1f亿'%(q.turnover/100000000)
+        return u'%.0f万'%(q.turnover/10000)
+    
+    #买入价
+    @classmethod
+    def ask(cls,q):
+        if cls.suspended(q): return '--'
+        if abs(q.ask)<1e-3: return '--'
+        
+        return '%.2f'%(q.ask) 
 
+    #卖出价
+    @classmethod 
+    def bid(cls,q):
+        if cls.suspended(q): return '--'
+        if abs(q.bid)<1e-3: return '--'
+        return '%.2f'%(q.bid) 
+    
+    #今开
+    @classmethod
+    def open(cls,q):
+        if cls.suspended(q): return '--'
+        return '%.2f'%(q.open) 
+    
+    #最高价
+    @classmethod
+    def highest(cls,q):
+        if cls.suspended(q): return '--'
+        return '%.2f'%(q.highest)
+    
+    #最低价
+    @classmethod
+    def lowest(cls,q):
+        if cls.suspended(q): return '--'
+        return '%.2f'%(q.lowest) 
+    
+    #振幅
+    @classmethod
+    def price_amp100(cls,q):
+        if cls.suspended(q): return '--'
+        return '%.2f'%((q.highest-q.lowest)*100/q.lowest)
+    
 def time_fmt(value):     
     tm_now = time.localtime()    
     

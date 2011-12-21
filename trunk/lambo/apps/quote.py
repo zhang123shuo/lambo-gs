@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*- 
 import tornado.web 
+from tornado.database import Row
 import threading
 import time
 import urllib2  
@@ -14,7 +15,7 @@ import time
 from common import BaseHandler 
 from websock import WebSocketEventHandler,event
  
-categories = [ u'上证A股', u'中小企业', u'沪深A股', u'权证', u'债券', u'开放式基金', u'封闭式基金',u'三板' ]
+categories = [ u'A股', u'中小', u'创业', u'B股', u'权证', u'基金', u'板块', u'自选']
 
 cached_quotes = {}
 cached_sockets = [] 
@@ -25,7 +26,7 @@ def start_sina_quote():
         global cached_quotes 
         q = qstr.split(',')
         if(code in cached_quotes): quote = cached_quotes[code]
-        else: cached_quotes[code] = quote = {}  
+        else: cached_quotes[code] = quote = Row()  
         quote['code'] = code
         quote['name'] = q[0]
         quote['open'] = float(q[1])
@@ -33,6 +34,8 @@ def start_sina_quote():
         quote['price'] = float(q[3])
         quote['highest'] = float(q[4])
         quote['lowest'] = float(q[5])
+        quote['ask'] = float(q[6])
+        quote['bid'] = float(q[7])
         quote['volume'] = int(q[8])
         quote['turnover'] = float(q[9])
         quote['buy1'] = [int(q[10]),float(q[11])]
@@ -98,21 +101,23 @@ def start_sina_quote():
 
 
 
-def push_quote():  
-    while True:
-        global sorted_quotes
-        if len(sorted_quotes)==0:
-            sorted_quotes =[v for k,v in sorted(cached_quotes.iteritems())]
-        quotes = sorted_quotes[0:60]
-        n = len(quotes)
-        if n<=0:
-            time.sleep(1)
-            continue
-        q = quotes[rand(n)] 
-        
-        msg = {'event':'quote','data': q}
-        broadcast(json.dumps(msg))
-        time.sleep(.5)
+def start_push_quote():
+    def push_quote():  
+        while True:
+            global sorted_quotes
+            if len(sorted_quotes)==0:
+                sorted_quotes =[v for k,v in sorted(cached_quotes.iteritems())]
+            quotes = sorted_quotes[0:60]
+            n = len(quotes)
+            if n<=0:
+                time.sleep(1)
+                continue
+            q = quotes[rand(n)] 
+            
+            msg = {'event':'quote','data': q}
+            broadcast(json.dumps(msg))
+            time.sleep(.5)
+    threading.Thread(target=push_quote).start()
         
 def broadcast(msg):
     for sock in cached_sockets:

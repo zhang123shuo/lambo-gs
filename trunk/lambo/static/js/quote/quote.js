@@ -58,8 +58,14 @@ function showMain(){
 	$("#quotes").removeClass("hide");
 	$("#stockQuote").addClass("hide");
 }
-function update_column(id,name,value){
+
+function update_column(id,name,value,css){ 
 	var $item = $("#" + id + " ."+name);
+	
+	if(css && !$item.hasClass(css)){  
+		$item.removeClass("eq").removeClass("neg").removeClass("pos").addClass(css);
+	}
+	
 	$item.text(value).css("border", "1px solid #C00");
 	setTimeout(function(){
 		$item.css("border", "1px solid transparent");
@@ -68,10 +74,14 @@ function update_column(id,name,value){
 function init_ws(host) {
 	if ("WebSocket" in window || 'MozWebSocket' in window ) {
 		eventSocket = new EventSocket(host); 
-		eventSocket.on("quote", function(data) {  
-			update_column(data.code,"price",data.price);
-			update_column(data.code,"sell1",data.sell1[1]);
-			update_column(data.code,"buy1",data.buy1[1]);
+		eventSocket.on("quote", function(q) { 
+			//depends on hq of hq-utils.js
+			if(hq.suspended(q)) return; 
+			update_column(q.code,"price-delta100", hq.price_delta100(q), hq.css(q.price,q.closed));
+			update_column(q.code,"price",hq.price(q), hq.css(q.price,q.closed));
+			update_column(q.code,"price-delta", hq.price_delta(q), hq.css(q.price,q.closed));
+			update_column(q.code,"ask",hq.ask(q), hq.css(q.buy1[1],q.closed));
+			update_column(q.code,"bid",hq.bid(q), hq.css(q.sell1[1],q.closed));
 		}); 
 	} else {
 		alert("WebSocket not supported");

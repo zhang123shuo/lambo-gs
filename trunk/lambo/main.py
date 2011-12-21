@@ -56,10 +56,9 @@ def main():
             user=options.mysql_user, password=options.mysql_password)
      
     app.cached_users = {} 
-    import apps.quote
-    apps.quote.start_sina_quote()
-    import threading
-    threading.Thread(target=apps.quote.push_quote).start()
+    import apps.quote as hq
+    hq.start_sina_quote() 
+    hq.start_push_quote() 
     
     server = tornado.httpserver.HTTPServer(app) 
     server.listen(options.port) 

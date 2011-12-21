@@ -6,6 +6,7 @@
 <link type="text/css" rel="stylesheet" href="{{static_url('css/quote/quote.css')}}"/>
 <script type="text/javascript" src="{{static_url('js/d3/d3.min.js')}}"></script>
 <script src="{{static_url('js/websock.js')}}"></script>
+<script src="{{static_url('js/quote/utils.js')}}"></script> 
 <script src="{{static_url('js/quote/quote.js')}}"></script> 
 {% end %} 
 {% block content %}
@@ -14,49 +15,52 @@
 </div>
 <div id="quotes" class="quotes">
 <div class="clearfix header">
-  	<span class="idx">序号</span>
+  	<span class="idx"> </span>
     <span class="code">代码</span>
     <span class="name">名称</span> 
     <span>涨幅%</span>
     <span>现价</span>
     <span>涨跌</span>
-    <span>成交额 </span> 
-    <span>换手%</span>
-    <span>市盈率</span>
     <span>买入价</span>
     <span>卖出价</span> 
+    <span>成交额 </span> 
+    <span>换手%</span>
+    <span>市盈率</span> 
     <span>今开</span>
     <span>昨收</span>
     <span>最高</span>
     <span>最低</span>
     <span>振幅%</span>
 </div>
-<ul class="data">
+<div class="data">
+
+<ul>
 {% set i=0 %}
 {% for q in quotes %}
-	{% set i += 1 %} 
-	{% set closed = q['closed'] %} 
+	{% set i += 1 %}  
+	{% set value = uniform(-0.1,0.1)*100 %}
   	<li id="{{q['code']}}" class="clearfix" onmousedown="q_line_clicked(this);" ondblclick="showStockQuote()">
   		 <span class="idx">{{i}}</span>
-	     <span class="code">{{q['code']}}</span>
-	     <span class="name">{{q['name']}}</span>
-	     {% set value = uniform(-0.1,0.1)*100 %}
-	     <span class="{{q_class(value)}}">{{'%.2f'%value}}</span> <!-- 涨跌幅 -->
-	     <span class="price {{q_class(value)}}">{{q['price']}}</span>
-	     <span class="{{q_class(value)}}">{{'%.2f'%(value*float(q['open'])/100)}}</span><!-- 涨跌额 -->
-	     <span>{{q_money(q['turnover'])}}</span>
-	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
-	     <span>{{'%.1f'%(uniform(20,200))}}</span>
-	     <span class="buy1 {{q_class2(q['buy1'][1],closed)}}">{{q['buy1'][1]}}</span>
-	     <span class="sell1 {{q_class2(q['sell1'][1],closed)}}">{{q['sell1'][1]}}</span>
-	     <span class="{{q_class2(q['open'],closed)}}">{{q['open']}}</span>
-	     <span>{{closed}}</span>
-	     <span class="{{q_class2(q['highest'],closed)}}">{{q['highest']}}</span>
-	     <span class="{{q_class2(q['lowest'],closed)}}">{{q['lowest']}}</span>
-	     <span>{{'%.2f'%(uniform(0,0.1)*100)}}</span>
+	     <span class="code">{{q.code}}</span>
+	     <span class="name">{{q.name}}</span>	     
+	     <span class="price-delta100 {{hq.css(q.price,q.closed)}}">{{hq.price_delta100(q)}}</span> <!-- 涨跌幅 -->
+	     <span class="price {{hq.css(q.price,q.closed)}}">{{hq.price(q)}}</span>
+	     <span class="price-delta {{hq.css(q.price,q.closed)}}">{{hq.price_delta(q)}}</span><!-- 涨跌额 -->
+	     <span class="ask {{hq.css(q.buy1[1],q.closed)}}">{{hq.ask(q)}}</span>
+	     <span class="bid {{hq.css(q.sell1[1],q.closed)}}">{{hq.bid(q)}}</span>
+	     <span class="turnover">{{hq.turnover(q)}}</span> 
+	     <span class="xrate">{{'%.2f'%(uniform(0,0.1)*100)}}</span>
+	     <span class="pe">{{'%.1f'%(uniform(20,200))}}</span> 
+	     <span class="open {{hq.css(q.open,q.closed)}}">{{hq.open(q)}}</span>
+	     <span class="closed">{{q.closed}}</span>
+	     <span class="highest {{hq.css(q.highest,q.closed)}}">{{hq.highest(q)}}</span>
+	     <span class="lowest {{hq.css(q.lowest,q.closed)}}">{{hq.lowest(q)}}</span>
+	     <span class="price-amp100">{{hq.price_amp100(q)}}</span>
  	</li> 
 {% end %} 
 </ul>
+</div>
+
 </div>
 
 
