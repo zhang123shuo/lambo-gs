@@ -1,24 +1,25 @@
-var pre_selected, body;
-
+var pre_selected;
+var g_quote_frame;
 function q_line_clicked(target){ 
 	var current = $(target);
 	if (pre_selected) pre_selected.removeClass('line_selected');
-	current.addClass('line_selected');
+	current.addClass('line_selected'); 
 	pre_selected = current; 
 }
 function scroll_line(){  
-	var cur = pre_selected.position().top;
-	var height = pre_selected.height();  
-	if(cur > window.innerHeight-20){  
-		body.scrollBy(0,height);
+	var cur = pre_selected.position().top; 
+	var height = pre_selected.outerHeight();  
+	var frameHeight = g_quote_frame.height(); 
+	if(cur > frameHeight-height){   
+		g_quote_frame.scrollTop(g_quote_frame.scrollTop()+height);
 	}
-	if(cur-height-20 < 0){
-		body.scrollBy(0,-height);
+	if(cur < 0){ 
+		g_quote_frame.scrollTop(g_quote_frame.scrollTop()-height);
 	}
 }
 function next_line(){  
-	if(!pre_selected){
-		pre_selected = $("#1");
+	if(!pre_selected){ 
+		pre_selected = $("#data > ul li:first-child"); 
 		pre_selected.addClass('line_selected');
 		return;
 	} 
@@ -32,7 +33,7 @@ function next_line(){
 }
 function prev_line(){ 
 	if(!pre_selected){
-		pre_selected = $("#1");
+		pre_selected = $("#data > ul li:first-child"); 
 		pre_selected.addClass('line_selected');
 		return;
 	}
@@ -71,6 +72,13 @@ function update_column(id,name,value,css){
 		$item.css("border", "1px solid transparent");
 	}, 800); 
 } 
+function init_layout(){
+	var header = $("#header"); 
+	var top = header.position().top+header.outerHeight();
+	var height = $("#footer").position().top - top;
+	$("#data").css({"top":top+"px","height":height+"px"}); 
+}
+
 function init_ws(host) {
 	if ("WebSocket" in window || 'MozWebSocket' in window ) {
 		eventSocket = new EventSocket(host); 
@@ -88,10 +96,25 @@ function init_ws(host) {
 	} 
 }
 
-$(function(){ 
-
-	body = $('body').get(0); 
+$(function(){  
+	g_quote_frame = $("#data");
+	
 	var keyshot = $("#keyshot");
+	var mouse_in_keyshot = false;
+	keyshot.hover(function(){
+		mouse_in_keyshot = true;
+	},function(){
+		mouse_in_keyshot = false;
+	});
+	function hide_keyshot(){
+		$('input',keyshot).val("");
+		keyshot.addClass("hide");
+	}
+	$('body').click(function(e){
+		if(!mouse_in_keyshot){
+			hide_keyshot();
+		}
+	});
 	$(document).keydown(function(e) {  
 		if(e.which==40){ //down
 			next_line();  
@@ -104,14 +127,15 @@ $(function(){
 			
 		}else if(e.which==27){
 			showMain();
-			keyshot.addClass("hide");
+			hide_keyshot();
 		}else if(isNormalKey(e.which)){
 			keyshot.removeClass("hide");
 			$('input',keyshot).focus();
 		}
 	}); 
-	
+	init_layout();
 	init_ws("ws://localhost:8080/quote/push");
+	$(window).resize(init_layout);
 });
 
 

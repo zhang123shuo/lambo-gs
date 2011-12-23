@@ -126,10 +126,6 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.application.db 
     
     @property  
-    def mysql(self):  #get application mongodb instance
-        return self.application.mysql 
-    
-    @property  
     def settings(self):  #get application mongodb instance
         return self.application.settings 
     
@@ -163,22 +159,19 @@ class BaseHandler(tornado.web.RequestHandler):
     def user(self,uid): #load user from cache
         uid = str(uid)
         if uid in self.cached_users: return self.cached_users[uid] 
-        u = self.mysql.get("select * from users where id=%s"%uid)
+        u = self.db.get("select * from users where id=%s"%uid)
         if u is None: return None
         self.cache_user(u)
         return u
     
     def load_user(self,email): #load user via email 
-        u = self.mysql.get("select * from users where email='%s'"%email)
+        u = self.db.get("select * from users where email='%s'"%email)
         if u is not None:   
             self.cache_user(u)
         return u
  
         
-class LoginHandler(BaseHandler): 
-    def get(self):  
-        self.render('login.html') 
-    
+class LoginHandler(BaseHandler):  
     def post(self):
         email = self.get_argument('email')  
         password = self.get_argument('password')
