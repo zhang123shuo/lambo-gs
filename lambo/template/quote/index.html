@@ -14,7 +14,7 @@
 <div class="caption"><span>新都酒店</span> <span>分时</span> <span>均线</span> <span>成交量</span> </div>
 </div>
 <div id="quotes" class="quotes">
-<div class="clearfix header">
+<div id="header" class="clearfix header">
   	<span class="idx"> </span>
     <span class="code">代码</span>
     <span class="name">名称</span> 
@@ -32,8 +32,7 @@
     <span>最低</span>
     <span>振幅%</span>
 </div>
-<div class="data">
-
+<div id="data" class="data">
 <ul>
 {% set i=0 %}
 {% for q in quotes %}
@@ -75,7 +74,7 @@
 	{% end %}
 	</ul>
 </div>
-<div class="footer"> 
+<div id="footer" class="footer"> 
 <ul class="cats clearfix">
 {%for i in range(len(categories)) %}
 	{% set c = categories[i] %}

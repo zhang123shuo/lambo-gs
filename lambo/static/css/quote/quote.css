@@ -7,7 +7,10 @@ html,body {
 }
 
 .container {
-    width: 96%;
+    width: 100%;
+}
+.fill .container{
+	width: 96%;
 }
 .container > .content{ 
 	margin-top: 40px;
@@ -22,47 +25,6 @@ html,body {
 }
 
 
-div.footer{
-	position: fixed;
-	bottom: 0px;
-	left: 0px;
-	right: 0px; 
-	height: 44px; 
-	font-size: 16px; 
-	color: #0C0;  
-	background-color: #222;
-	border-top: 1px solid #444;
-}
-.footer .cats > li{
-	float: left;
-	background-color: #333;
-	margin: 0 2px;
-	padding: 2px 6px;
-	color: white;
-	cursor: default;
-}
-.footer .cats > li.active{
-	background-color: #900; 
-}
-.footer .cats > li:hover{
-	background-color: #900; 
-}
- 
-.footer .snapshot{
-	border-top: 1px solid #333;
-	padding: 2px 0;
-}
-.footer  .block{
-	margin-right: 10px;
-}
-.block >span:FIRST-CHILD {
-	color: #CC8;
-}
-.block> span{
-	margin-left: 6px;
-}
-
-
 
 
 .line_selected{ 
@@ -74,10 +36,23 @@ div.footer{
 	color: #BBB; 
 } 
 .quotes .header{
-
-	padding: 4px 2px 2px 2px;
+	position: fixed;
+	top: 40px;
+	left: 0;
+	right: 0;  
+	background-color: #080808;
+	padding: 4px 2px 2px 2px; 
 	border-bottom: 1px solid #C00; 
 }
+.quotes .data{
+	position: fixed; 
+	
+	left: 0px;
+	right: 0px; 
+	overflow-y: scroll;
+	overflow-x: hidden; 
+}
+
 .quotes span{
 	float: left;
 	width: 5.8%; 
@@ -85,14 +60,7 @@ div.footer{
 	text-align: right;
 	border: 1px solid transparent;
 }
-
-.quotes  .header{
-	position: fixed;
-	top: 40px;
-	left: 2%;
-	right: 2%;
-	background-color: #080808;
-}
+ 
 .header span{
 	color: white;  
 }
@@ -106,12 +74,7 @@ div.footer{
 	text-align: center;
 	width: 4%;
 }
-.quotes .data{
-	margin-top: 70px;
-	overflow-y: scroll;
-	overflow-x: hidden;
-	max-height: 1000px;
-}
+
 .data li{
 	padding: 2px;
 }
@@ -221,6 +184,47 @@ text {
 	stroke-width: 1px;
 }
 
+
+
+div.footer{
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	right: 0px; 
+	height: 44px; 
+	font-size: 16px; 
+	color: #0C0;  
+	background-color: #222;
+	border-top: 1px solid #444;
+}
+.footer .cats > li{
+	float: left;
+	background-color: #333;
+	margin: 0 2px;
+	padding: 2px 6px;
+	color: white;
+	cursor: default;
+}
+.footer .cats > li.active{
+	background-color: #900; 
+}
+.footer .cats > li:hover{
+	background-color: #900; 
+}
+ 
+.footer .snapshot{
+	border-top: 1px solid #333;
+	padding: 2px 0;
+}
+.footer  .block{
+	margin-right: 10px;
+}
+.block >span:FIRST-CHILD {
+	color: #CC8;
+}
+.block> span{
+	margin-left: 6px;
+}
 
 
 
