@@ -71,6 +71,7 @@ while True:
         x = hq.read(block_size)  
         if x is None: break 
         res = parse(x) 
+        print res.name,res
         count += 1
     except: 
         break
